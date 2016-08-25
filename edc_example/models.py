@@ -10,6 +10,7 @@ from edc_meta_data.model_mixins import CrfMetaDataModelMixin, RequisitionMetaDat
 from edc_consent.model_mixins import ConsentModelMixin
 from edc_consent.models.fields.bw.identity_fields_mixin import IdentityFieldsMixin
 from edc_consent.models.fields import ReviewFieldsMixin, PersonalFieldsMixin, CitizenFieldsMixin, VulnerabilityFieldsMixin
+from edc_registration.model_mixins import RegistrationMixin
 
 
 class RegisteredSubject(RegisteredSubjectModelMixin, BaseUuidModel):
@@ -18,10 +19,10 @@ class RegisteredSubject(RegisteredSubjectModelMixin, BaseUuidModel):
         app_label = 'edc_example'
 
 
-class SubjectConsent(ConsentModelMixin, CreateAppointmentsMixin, IdentityFieldsMixin, ReviewFieldsMixin,
+class SubjectConsent(ConsentModelMixin, RegistrationMixin, CreateAppointmentsMixin, IdentityFieldsMixin, ReviewFieldsMixin,
                      PersonalFieldsMixin, CitizenFieldsMixin, VulnerabilityFieldsMixin, BaseUuidModel):
 
-    registered_subject = models.ForeignKey(RegisteredSubject)
+    # registered_subject = models.ForeignKey(RegisteredSubject)
 
     class Meta:
         app_label = 'edc_example'

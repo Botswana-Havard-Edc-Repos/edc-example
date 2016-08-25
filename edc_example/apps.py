@@ -10,12 +10,6 @@ class AppConfig(DjangoAppConfig):
     name = 'edc_example'
 
 
-class EdcVisitScheduleAppConfig(EdcVisitScheduleAppConfigParent):
-    pass
-#     def ready(self):
-#         pass
-
-
 class EdcConsentAppConfig(EdcConsentAppConfigParent):
 
     consent_type_setup = [

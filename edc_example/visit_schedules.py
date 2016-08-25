@@ -1,4 +1,4 @@
-from edc_example.models import SubjectVisit, SubjectConsent
+from edc_example.models import SubjectVisit, Enrollment
 
 from edc_visit_schedule.site_visit_schedules import site_visit_schedules
 from edc_visit_schedule.visit_schedule import VisitSchedule
@@ -30,7 +30,7 @@ subject_visit_schedule = VisitSchedule(
 )
 
 # add schedules
-schedule = Schedule(name='schedule-1', enrollment_model=SubjectConsent)
+schedule = Schedule(name='schedule-1', enrollment_model=Enrollment)
 
 # add visits to this schedule
 schedule.add_visit(
@@ -45,6 +45,20 @@ schedule.add_visit(
     title='Visit 2000',
     timepoint=1,
     base_interval=1,
+    requisitions=requisitions,
+    crfs=crfs)
+schedule.add_visit(
+    code='3000',
+    title='Visit 3000',
+    timepoint=2,
+    base_interval=2,
+    requisitions=requisitions,
+    crfs=crfs)
+schedule.add_visit(
+    code='4000',
+    title='Visit 4000',
+    timepoint=3,
+    base_interval=3,
     requisitions=requisitions,
     crfs=crfs)
 

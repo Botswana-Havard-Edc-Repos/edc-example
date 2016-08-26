@@ -2,16 +2,17 @@ from django.db import models
 from django.utils import timezone
 from edc_appointment.model_mixins import AppointmentModelMixin, CreateAppointmentsMixin
 from edc_base.model.models.base_uuid_model import BaseUuidModel
+from edc_consent.model_mixins import ConsentModelMixin
+from edc_consent.model_mixins import RequiresConsentMixin
+from edc_consent.models.fields import ReviewFieldsMixin, PersonalFieldsMixin, CitizenFieldsMixin, VulnerabilityFieldsMixin
+from edc_consent.models.fields.bw.identity_fields_mixin import IdentityFieldsMixin
 from edc_meta_data.managers import CrfMetaDataManager
 from edc_meta_data.mixins import CrfMetaDataMixin
-from edc_registration.model_mixins import RegisteredSubjectModelMixin, RegisteredSubjectMixin
-from edc_visit_tracking.model_mixins import CrfModelMixin, PreviousVisitModelMixin, VisitModelMixin
 from edc_meta_data.model_mixins import CrfMetaDataModelMixin, RequisitionMetaDataModelMixin
-from edc_consent.model_mixins import ConsentModelMixin
-from edc_consent.models.fields.bw.identity_fields_mixin import IdentityFieldsMixin
-from edc_consent.models.fields import ReviewFieldsMixin, PersonalFieldsMixin, CitizenFieldsMixin, VulnerabilityFieldsMixin
+from edc_registration.model_mixins import RegisteredSubjectModelMixin, RegisteredSubjectMixin
 from edc_registration.model_mixins import RegistrationMixin
 from edc_timepoint.model_mixins import TimepointStatusMixin
+from edc_visit_tracking.model_mixins import CrfModelMixin, PreviousVisitModelMixin, VisitModelMixin
 
 
 class RegisteredSubject(RegisteredSubjectModelMixin, BaseUuidModel):
@@ -29,9 +30,20 @@ class SubjectConsent(ConsentModelMixin, RegistrationMixin, IdentityFieldsMixin,
         unique_together = ['subject_identifier', 'version']
 
 
-class Enrollment(CreateAppointmentsMixin, RegisteredSubjectMixin, BaseUuidModel):
+class SubjectConsentProxy(SubjectConsent):
+
+    class Meta:
+        app_label = 'edc_example'  # required!
+        proxy = True
+
+
+class Enrollment(CreateAppointmentsMixin, RegisteredSubjectMixin, RequiresConsentMixin, BaseUuidModel):
 
     visit_schedule_name = 'subject_visit_schedule'
+
+    consent_model = 'edc_example.subjectconsent'
+
+    report_datetime = models.DateTimeField(default=timezone.now)
 
     registration_datetime = models.DateTimeField(default=timezone.now)
 
@@ -55,7 +67,9 @@ class SubjectVisit(CrfMetaDataMixin, PreviousVisitModelMixin, VisitModelMixin, B
         app_label = 'edc_example'
 
 
-class CrfOne(CrfModelMixin, BaseUuidModel):
+class CrfOne(CrfModelMixin, RequiresConsentMixin, BaseUuidModel):
+
+    consent_model = 'edc_example.subjectconsent'
 
     subject_visit = models.ForeignKey(SubjectVisit)
 
@@ -67,7 +81,7 @@ class CrfOne(CrfModelMixin, BaseUuidModel):
         app_label = 'edc_example'
 
 
-class CrfTwo(CrfModelMixin, BaseUuidModel):
+class CrfTwo(CrfModelMixin, RequiresConsentMixin, BaseUuidModel):
 
     subject_visit = models.ForeignKey(SubjectVisit)
 
@@ -79,7 +93,7 @@ class CrfTwo(CrfModelMixin, BaseUuidModel):
         app_label = 'edc_example'
 
 
-class CrfThree(CrfModelMixin, BaseUuidModel):
+class CrfThree(CrfModelMixin, RequiresConsentMixin, BaseUuidModel):
 
     subject_visit = models.ForeignKey(SubjectVisit)
 
@@ -91,7 +105,7 @@ class CrfThree(CrfModelMixin, BaseUuidModel):
         app_label = 'edc_example'
 
 
-class CrfFour(CrfModelMixin, BaseUuidModel):
+class CrfFour(CrfModelMixin, RequiresConsentMixin, BaseUuidModel):
 
     subject_visit = models.ForeignKey(SubjectVisit)
 
@@ -103,7 +117,7 @@ class CrfFour(CrfModelMixin, BaseUuidModel):
         app_label = 'edc_example'
 
 
-class CrfFive(CrfModelMixin, BaseUuidModel):
+class CrfFive(CrfModelMixin, RequiresConsentMixin, BaseUuidModel):
 
     subject_visit = models.ForeignKey(SubjectVisit)
 
@@ -115,7 +129,7 @@ class CrfFive(CrfModelMixin, BaseUuidModel):
         app_label = 'edc_example'
 
 
-class CrfSix(CrfModelMixin, BaseUuidModel):
+class CrfSix(CrfModelMixin, RequiresConsentMixin, BaseUuidModel):
 
     subject_visit = models.ForeignKey(SubjectVisit)
 
@@ -127,7 +141,7 @@ class CrfSix(CrfModelMixin, BaseUuidModel):
         app_label = 'edc_example'
 
 
-class RequisitionOne(CrfModelMixin, BaseUuidModel):
+class RequisitionOne(CrfModelMixin, RequiresConsentMixin, BaseUuidModel):
 
     subject_visit = models.ForeignKey(SubjectVisit)
 
@@ -141,7 +155,7 @@ class RequisitionOne(CrfModelMixin, BaseUuidModel):
         app_label = 'edc_example'
 
 
-class RequisitionTwo(CrfModelMixin, BaseUuidModel):
+class RequisitionTwo(CrfModelMixin, RequiresConsentMixin, BaseUuidModel):
 
     subject_visit = models.ForeignKey(SubjectVisit)
 

@@ -6,19 +6,19 @@ from edc_visit_schedule.visit import Crf, Requisition
 from edc_visit_schedule.schedule import Schedule
 
 crfs = (
-    Crf(show_order=10, app_label='edc_example', model_name='CrfOne'),
-    Crf(show_order=20, app_label='edc_example', model_name='CrfTwo'),
-    Crf(show_order=30, app_label='edc_example', model_name='CrfThree'),
-    Crf(show_order=40, app_label='edc_example', model_name='CrfFour'),
-    Crf(show_order=50, app_label='edc_example', model_name='CrfFive'),
+    Crf(show_order=10, model='edc_example.crfone'),
+    Crf(show_order=20, model='edc_example.crftwo'),
+    Crf(show_order=30, model='edc_example.crfthree'),
+    Crf(show_order=40, model='edc_example.crffour'),
+    Crf(show_order=50, model='edc_example.crffive'),
 )
 
 requisitions = (
     Requisition(
-        show_order=10, app_label='edc_example', model_name='RequisitionOne',
+        show_order=10, model='edc_example.RequisitionOne',
         panel_name='Research Blood Draw', panel_type='TEST', aliqout_type_alpha_code='WB'),
     Requisition(
-        show_order=20, app_label='edc_example', model_name='RequisitionTwo',
+        show_order=20, model='edc_example.RequisitionTwo',
         panel_name='Viral Load', panel_type='TEST', aliqout_type_alpha_code='WB'),
 )
 
@@ -62,7 +62,7 @@ schedule.add_visit(
     requisitions=requisitions,
     crfs=crfs)
 
-schedule = subject_visit_schedule.add_schedule(schedule)
+subject_visit_schedule.add_schedule(schedule)
 
 # register the visit_schedule
 site_visit_schedules.register(subject_visit_schedule)

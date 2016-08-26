@@ -4,11 +4,17 @@ from django.apps.config import AppConfig as DjangoAppConfig
 
 from edc_consent.apps import AppConfig as EdcConsentAppConfigParent
 from edc_timepoint.apps import AppConfig as EdcTimepointAppConfigParent
+from edc_timepoint.timepoint import Timepoint
 from edc_visit_schedule.apps import AppConfig as EdcVisitScheduleAppConfigParent
+from edc_protocol.apps import AppConfig as EdcProtocolAppConfigParent
 
 
 class AppConfig(DjangoAppConfig):
     name = 'edc_example'
+
+
+class EdcProtocolAppConfig(EdcProtocolAppConfigParent):
+    enrollment_caps = {'edc_example.enrollment': ('subject', -1)}  # {label_lower: (key, count)}
 
 
 class EdcConsentAppConfig(EdcConsentAppConfigParent):
@@ -22,10 +28,11 @@ class EdcConsentAppConfig(EdcConsentAppConfigParent):
 
 
 class EdcTimepointAppConfig(EdcTimepointAppConfigParent):
-    timepoint_models = {
-        'edc_example.appointment': {
-            'datetime_field': 'appt_datetime',  # the datetime field
-            'status_field': 'appt_status',  # the status field
-            'closed_status': 'CLOSED'  # the value of appt_status when closed
-        }
-    }
+    timepoints = [
+        Timepoint(
+            model='edc_example.appointment',
+            datetime_field='appt_datetime',
+            status_field='appt_status',
+            closed_status='CLOSED'
+        )
+    ]

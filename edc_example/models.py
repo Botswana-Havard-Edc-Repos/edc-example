@@ -11,7 +11,7 @@ from edc_meta_data.mixins import CrfMetaDataMixin
 from edc_meta_data.model_mixins import CrfMetaDataModelMixin, RequisitionMetaDataModelMixin
 from edc_registration.model_mixins import RegisteredSubjectModelMixin, RegisteredSubjectMixin
 from edc_registration.model_mixins import RegistrationMixin
-from edc_timepoint.model_mixins import TimepointStatusMixin
+from edc_timepoint.model_mixins import TimepointModelMixin
 from edc_visit_tracking.model_mixins import CrfModelMixin, PreviousVisitModelMixin, VisitModelMixin
 
 
@@ -53,13 +53,17 @@ class Enrollment(CreateAppointmentsMixin, RegisteredSubjectMixin, RequiresConsen
         app_label = 'edc_example'
 
 
-class Appointment(AppointmentModelMixin, BaseUuidModel):
+class Appointment(AppointmentModelMixin, RequiresConsentMixin, BaseUuidModel):
+
+    consent_model = 'edc_example.subjectconsent'
 
     class Meta:
         app_label = 'edc_example'
 
 
-class SubjectVisit(CrfMetaDataMixin, PreviousVisitModelMixin, VisitModelMixin, BaseUuidModel):
+class SubjectVisit(CrfMetaDataMixin, RequiresConsentMixin, PreviousVisitModelMixin, VisitModelMixin, BaseUuidModel):
+
+    consent_model = 'edc_example.subjectconsent'
 
     appointment = models.OneToOneField(Appointment)
 

@@ -1,8 +1,10 @@
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from django.apps.config import AppConfig as DjangoAppConfig
+from django.utils import timezone
 
 from edc_consent.apps import AppConfig as EdcConsentAppConfigParent
+from edc_consent.consent_config import ConsentConfig
 from edc_timepoint.apps import AppConfig as EdcTimepointAppConfigParent
 from edc_timepoint.timepoint import Timepoint
 from edc_visit_schedule.apps import AppConfig as EdcVisitScheduleAppConfigParent
@@ -18,12 +20,16 @@ class EdcProtocolAppConfig(EdcProtocolAppConfigParent):
 
 
 class EdcConsentAppConfig(EdcConsentAppConfigParent):
-    consent_type_setup = [
-        {'app_label': 'edc_example',
-         'model_name': 'subjectconsent',
-         'start_datetime': datetime.today() + relativedelta(years=-1),
-         'end_datetime': datetime.today() + relativedelta(years=+1),
-         'version': '1'}
+    consent_configs = [
+        ConsentConfig(
+            'edc_example.subjectconsent',
+            version='1',
+            start=timezone.now() - relativedelta(years=1),
+            end=timezone.now() + relativedelta(years=1),
+            age_min=16,
+            age_is_adult=18,
+            age_max=64,
+            gender=['M', 'F']),
     ]
 
 

@@ -1,17 +1,12 @@
-from edc_consent.forms_mixins import BaseConsentForm
+from django import forms
 
-from .models import SubjectConsent, SubjectConsentProxy
+from edc_consent.forms_mixins import ConsentFormMixin
+
+from .models import SubjectConsent
 
 
-class SubjectConsentForm(BaseConsentForm):
+class SubjectConsentForm(ConsentFormMixin, forms.ModelForm):
 
     class Meta:
         model = SubjectConsent
-        fields = '__all__'
-
-
-class SubjectConsentProxyForm(BaseConsentForm):
-
-    class Meta:
-        model = SubjectConsentProxy
         fields = '__all__'

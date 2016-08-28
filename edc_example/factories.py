@@ -4,7 +4,7 @@ from faker import Factory as FakerFactory
 
 from django.utils import timezone
 from datetime import date
-from edc_example.models import SubjectConsent, SubjectConsentProxy
+from edc_example.models import SubjectConsent, SubjectVisit
 from dateutil.relativedelta import relativedelta
 from edc_constants.constants import YES, NO
 
@@ -16,45 +16,35 @@ class SubjectConsentFactory(factory.DjangoModelFactory):
     class Meta:
         model = SubjectConsent
 
-    subject_identifier = '12345'
-    study_site = '40'
-    first_name = factory.LazyAttribute(lambda x: 'E{}'.format(faker.first_name().upper()))
-    last_name = factory.LazyAttribute(lambda x: 'E{}'.format(faker.last_name().upper()))
-    initials = 'EE'
-    gender = 'M'
+    confirm_identity = '123156789'
     consent_datetime = timezone.now()
     dob = date.today() - relativedelta(years=25)
-    is_dob_estimated = '-'
+    first_name = factory.LazyAttribute(lambda x: 'E{}'.format(faker.first_name().upper()))
+    gender = 'M'
     identity = '123156789'
-    confirm_identity = '123156789'
     identity_type = 'OMANG'
-    is_literate = YES
+    initials = 'EE'
+    is_dob_estimated = '-'
     is_incarcerated = NO
-    witness_name = None
+    is_literate = YES
     language = 'en'
+    last_name = factory.LazyAttribute(lambda x: 'E{}'.format(faker.last_name().upper()))
+    study_site = '40'
+    subject_identifier = '12345'
     subject_type = 'subject'
-    consent_datetime = timezone.now()
+    witness_name = None
+    assessment_score = YES
+    consent_reviewed = YES
+    consent_signature = YES
+    study_questions = YES
+    citizen = YES
+    consent_copy = YES
 
 
-class SubjectConsentProxyFactory(factory.DjangoModelFactory):
+class SubjectVisitFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = SubjectConsentProxy
+        model = SubjectVisit
 
-    subject_identifier = '12345'
-    study_site = '40'
-    first_name = 'ERIK'
-    last_name = 'ERIKS'
-    initials = 'EE'
-    gender = 'M'
-    consent_datetime = timezone.now()
-    dob = date.today() - relativedelta(years=25)
-    is_dob_estimated = '-'
-    identity = '123156789'
-    confirm_identity = '123156789'
-    identity_type = 'OMANG'
-    is_literate = YES
-    is_incarcerated = NO
-    language = 'en'
-    subject_type = 'subject'
-    consent_datetime = timezone.now()
+    # subject_identifier = '12345'
+    report_datetime = timezone.now()

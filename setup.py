@@ -23,7 +23,7 @@ setup(
     zip_safe=False,
     keywords='django edc example models and schedule',
     install_requires=[
-        'factory',
+        'factory-boy',
     ],
     classifiers=[
         'Environment :: Web Environment',

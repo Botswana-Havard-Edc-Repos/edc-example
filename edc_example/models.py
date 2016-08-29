@@ -1,17 +1,17 @@
 from django.db import models
 from django.utils import timezone
+
 from edc_appointment.model_mixins import AppointmentModelMixin, CreateAppointmentsMixin
 from edc_base.model.models.base_uuid_model import BaseUuidModel
-from edc_consent.model_mixins import ConsentModelMixin
-from edc_consent.model_mixins import RequiresConsentMixin
 from edc_consent.field_mixins import ReviewFieldsMixin, PersonalFieldsMixin, CitizenFieldsMixin, VulnerabilityFieldsMixin
 from edc_consent.field_mixins.bw.identity_fields_mixin import IdentityFieldsMixin
-from edc_meta_data.managers import CrfMetaDataManager
-from edc_meta_data.mixins import CrfMetaDataMixin
-from edc_meta_data.model_mixins import CrfMetaDataModelMixin, RequisitionMetaDataModelMixin
+from edc_consent.model_mixins import ConsentModelMixin
+from edc_consent.model_mixins import RequiresConsentMixin
+from edc_metadata.model_mixins import (
+    CrfMetadataModelMixin, RequisitionMetadataModelMixin, CreatesMetadataModelMixin,
+    UpdateCrfMetadataModelMixin, UpdateRequisitionMetadataModelMixin)
 from edc_registration.model_mixins import RegisteredSubjectModelMixin, RegisteredSubjectMixin
 from edc_registration.model_mixins import RegistrationMixin
-from edc_timepoint.model_mixins import TimepointModelMixin
 from edc_visit_tracking.model_mixins import CrfModelMixin, CrfInlineModelMixin, PreviousVisitModelMixin, VisitModelMixin
 
 
@@ -49,7 +49,8 @@ class Appointment(AppointmentModelMixin, RequiresConsentMixin, BaseUuidModel):
         app_label = 'edc_example'
 
 
-class SubjectVisit(VisitModelMixin, CrfMetaDataMixin, RequiresConsentMixin, PreviousVisitModelMixin, BaseUuidModel):
+class SubjectVisit(VisitModelMixin, CreatesMetadataModelMixin, RequiresConsentMixin,
+                   PreviousVisitModelMixin, BaseUuidModel):
 
     appointment = models.OneToOneField(Appointment)
 
@@ -58,13 +59,11 @@ class SubjectVisit(VisitModelMixin, CrfMetaDataMixin, RequiresConsentMixin, Prev
         app_label = 'edc_example'
 
 
-class CrfOne(CrfModelMixin, RequiresConsentMixin, BaseUuidModel):
+class CrfOne(CrfModelMixin, RequiresConsentMixin, UpdateCrfMetadataModelMixin, BaseUuidModel):
 
     subject_visit = models.ForeignKey(SubjectVisit)
 
     f1 = models.CharField(max_length=10, default='erik')
-
-    entry_meta_data_manager = CrfMetaDataManager(SubjectVisit)
 
     class Meta:
         consent_model = 'edc_example.subjectconsent'
@@ -87,8 +86,6 @@ class BadCrfOneInline(CrfInlineModelMixin, RequiresConsentMixin, BaseUuidModel):
 
     f1 = models.CharField(max_length=10, default='erik')
 
-    entry_meta_data_manager = CrfMetaDataManager(SubjectVisit)
-
     class Meta:
         consent_model = 'edc_example.subjectconsent'
         app_label = 'edc_example'
@@ -102,117 +99,103 @@ class CrfOneInline(CrfInlineModelMixin, RequiresConsentMixin, BaseUuidModel):
 
     f1 = models.CharField(max_length=10, default='erik')
 
-    entry_meta_data_manager = CrfMetaDataManager(SubjectVisit)
-
     class Meta:
         consent_model = 'edc_example.subjectconsent'
         crf_inline_parent = 'crf_one'
         app_label = 'edc_example'
 
 
-class CrfTwo(CrfModelMixin, RequiresConsentMixin, BaseUuidModel):
+class CrfTwo(CrfModelMixin, RequiresConsentMixin, UpdateCrfMetadataModelMixin, BaseUuidModel):
 
     subject_visit = models.ForeignKey(SubjectVisit)
 
     f1 = models.CharField(max_length=10, default='erik')
 
-    entry_meta_data_manager = CrfMetaDataManager(SubjectVisit)
-
     class Meta:
         app_label = 'edc_example'
 
 
-class CrfThree(CrfModelMixin, RequiresConsentMixin, BaseUuidModel):
+class CrfThree(CrfModelMixin, RequiresConsentMixin, UpdateCrfMetadataModelMixin, BaseUuidModel):
 
     subject_visit = models.ForeignKey(SubjectVisit)
 
     f1 = models.CharField(max_length=10, default='erik')
 
-    entry_meta_data_manager = CrfMetaDataManager(SubjectVisit)
-
     class Meta:
         app_label = 'edc_example'
 
 
-class CrfFour(CrfModelMixin, RequiresConsentMixin, BaseUuidModel):
+class CrfFour(CrfModelMixin, RequiresConsentMixin, UpdateCrfMetadataModelMixin, BaseUuidModel):
 
     subject_visit = models.ForeignKey(SubjectVisit)
 
     f1 = models.CharField(max_length=10, default='erik')
 
-    entry_meta_data_manager = CrfMetaDataManager(SubjectVisit)
-
     class Meta:
         app_label = 'edc_example'
 
 
-class CrfFive(CrfModelMixin, RequiresConsentMixin, BaseUuidModel):
+class CrfFive(CrfModelMixin, RequiresConsentMixin, UpdateCrfMetadataModelMixin, BaseUuidModel):
 
     subject_visit = models.ForeignKey(SubjectVisit)
 
     f1 = models.CharField(max_length=10, default='erik')
 
-    entry_meta_data_manager = CrfMetaDataManager(SubjectVisit)
-
     class Meta:
         app_label = 'edc_example'
 
 
-class CrfSix(CrfModelMixin, RequiresConsentMixin, BaseUuidModel):
+class CrfSix(CrfModelMixin, RequiresConsentMixin, UpdateCrfMetadataModelMixin, BaseUuidModel):
 
     subject_visit = models.ForeignKey(SubjectVisit)
 
     f1 = models.CharField(max_length=10, default='erik')
 
-    entry_meta_data_manager = CrfMetaDataManager(SubjectVisit)
+    class Meta:
+        app_label = 'edc_example'
+
+
+class Panel(BaseUuidModel):
+
+    name = models.CharField(max_length=25)
 
     class Meta:
         app_label = 'edc_example'
 
 
-class RequisitionOne(CrfModelMixin, RequiresConsentMixin, BaseUuidModel):
+class RequisitionOne(CrfModelMixin, RequiresConsentMixin, UpdateRequisitionMetadataModelMixin, BaseUuidModel):
 
     subject_visit = models.ForeignKey(SubjectVisit)
 
-    panel_name = models.CharField(max_length=25, null=True)
+    panel = models.ForeignKey(Panel)
 
     f1 = models.CharField(max_length=10, default='erik')
 
-    entry_meta_data_manager = CrfMetaDataManager(SubjectVisit)
-
     class Meta:
         app_label = 'edc_example'
+        consent_model = 'edc_example.subjectconsent'
 
 
-class RequisitionTwo(CrfModelMixin, RequiresConsentMixin, BaseUuidModel):
+class RequisitionTwo(CrfModelMixin, RequiresConsentMixin, UpdateRequisitionMetadataModelMixin, BaseUuidModel):
 
     subject_visit = models.ForeignKey(SubjectVisit)
 
-    panel_name = models.CharField(max_length=25, null=True)
+    panel = models.ForeignKey(Panel)
 
     f1 = models.CharField(max_length=10, default='erik')
 
-    entry_meta_data_manager = CrfMetaDataManager(SubjectVisit)
-
     class Meta:
+        app_label = 'edc_example'
+        consent_model = 'edc_example.subjectconsent'
+
+
+class CrfMetadata(CrfMetadataModelMixin, BaseUuidModel):
+
+    class Meta(CrfMetadataModelMixin.Meta):
         app_label = 'edc_example'
 
 
-class CrfMetaData(CrfMetaDataModelMixin, BaseUuidModel):
+class RequisitionMetadata(RequisitionMetadataModelMixin, BaseUuidModel):
 
-    registered_subject = models.ForeignKey(RegisteredSubject)
-
-    appointment = models.ForeignKey(Appointment, related_name='+')
-
-    class Meta:
-        app_label = 'edc_example'
-
-
-class RequisitionMetaData(RequisitionMetaDataModelMixin, BaseUuidModel):
-
-    registered_subject = models.ForeignKey(RegisteredSubject)
-
-    appointment = models.ForeignKey(Appointment, related_name='+')
-
-    class Meta:
+    class Meta(RequisitionMetadataModelMixin.Meta):
         app_label = 'edc_example'

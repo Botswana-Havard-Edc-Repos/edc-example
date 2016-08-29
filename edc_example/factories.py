@@ -1,11 +1,11 @@
 import factory
 
+from datetime import date
+from dateutil.relativedelta import relativedelta
+from django.utils import timezone
 from faker import Factory as FakerFactory
 
-from django.utils import timezone
-from datetime import date
-from edc_example.models import SubjectConsent, SubjectVisit
-from dateutil.relativedelta import relativedelta
+from edc_example.models import SubjectConsent, SubjectVisit, Enrollment
 from edc_constants.constants import YES, NO
 
 faker = FakerFactory.create()
@@ -17,7 +17,7 @@ class SubjectConsentFactory(factory.DjangoModelFactory):
         model = SubjectConsent
 
     confirm_identity = '123156789'
-    consent_datetime = timezone.now()
+    consent_datetime = timezone.now() - relativedelta(minutes=45)
     dob = date.today() - relativedelta(years=25)
     first_name = factory.LazyAttribute(lambda x: 'E{}'.format(faker.first_name().upper()))
     gender = 'M'
@@ -47,4 +47,12 @@ class SubjectVisitFactory(factory.DjangoModelFactory):
         model = SubjectVisit
 
     # subject_identifier = '12345'
-    report_datetime = timezone.now()
+    report_datetime = timezone.now() - relativedelta(minutes=30)
+
+
+class EnrollmentFactory(factory.DjangoModelFactory):
+
+    report_datetime = timezone.now() - relativedelta(minutes=15)
+
+    class Meta:
+        model = Enrollment

@@ -1,9 +1,8 @@
-from edc_example.models import SubjectVisit, Enrollment
-
 from edc_visit_schedule.site_visit_schedules import site_visit_schedules
 from edc_visit_schedule.visit_schedule import VisitSchedule
 from edc_visit_schedule.visit import Crf, Requisition
 from edc_visit_schedule.schedule import Schedule
+from edc_example.lab_profiles import viral_load_panel, rdb_panel
 
 crfs = (
     Crf(show_order=10, model='edc_example.crfone'),
@@ -14,23 +13,19 @@ crfs = (
 )
 
 requisitions = (
-    Requisition(
-        show_order=10, model='edc_example.RequisitionOne',
-        panel_name='Research Blood Draw', panel_type='TEST', aliqout_type_alpha_code='WB'),
-    Requisition(
-        show_order=20, model='edc_example.RequisitionTwo',
-        panel_name='Viral Load', panel_type='TEST', aliqout_type_alpha_code='WB'),
+    Requisition(show_order=10, model='edc_example.SubjectRequisition', panel=rdb_panel),
+    Requisition(show_order=20, model='edc_example.SubjectRequisition', panel=viral_load_panel),
 )
 
 subject_visit_schedule = VisitSchedule(
     name='subject_visit_schedule',
     verbose_name='Example Visit Schedule',
     app_label='edc_example',
-    visit_model=SubjectVisit,
+    visit_model='edc_example.subjectvisit',
 )
 
 # add schedules
-schedule = Schedule(name='schedule-1', enrollment_model=Enrollment)
+schedule = Schedule(name='schedule-1', enrollment_model='edc_example.enrollment')
 
 # add visits to this schedule
 schedule.add_visit(

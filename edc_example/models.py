@@ -7,12 +7,15 @@ from edc_consent.field_mixins import ReviewFieldsMixin, PersonalFieldsMixin, Cit
 from edc_consent.field_mixins.bw.identity_fields_mixin import IdentityFieldsMixin
 from edc_consent.model_mixins import ConsentModelMixin
 from edc_consent.model_mixins import RequiresConsentMixin
+from edc_lab.requisition.model_mixins import RequisitionModelMixin
 from edc_metadata.model_mixins import (
     CrfMetadataModelMixin, RequisitionMetadataModelMixin, CreatesMetadataModelMixin,
     UpdateCrfMetadataModelMixin, UpdateRequisitionMetadataModelMixin)
 from edc_registration.model_mixins import RegisteredSubjectModelMixin, RegisteredSubjectMixin
 from edc_registration.model_mixins import RegistrationMixin
 from edc_visit_tracking.model_mixins import CrfModelMixin, CrfInlineModelMixin, PreviousVisitModelMixin, VisitModelMixin
+from edc_lab.aliquot.model_mixins import AliquotModelMixin
+from edc_lab.specimen.model_mixins import SpecimenCollectionModelMixin, SpecimenCollectionItemModelMixin
 
 
 class RegisteredSubject(RegisteredSubjectModelMixin, BaseUuidModel):
@@ -163,30 +166,44 @@ class Panel(BaseUuidModel):
         app_label = 'edc_example'
 
 
-class RequisitionOne(CrfModelMixin, RequiresConsentMixin, UpdateRequisitionMetadataModelMixin, BaseUuidModel):
+class SubjectRequisition(CrfModelMixin, RequisitionModelMixin, RequiresConsentMixin,
+                         UpdateRequisitionMetadataModelMixin, BaseUuidModel):
 
     subject_visit = models.ForeignKey(SubjectVisit)
-
-    panel = models.ForeignKey(Panel)
-
-    f1 = models.CharField(max_length=10, default='erik')
 
     class Meta:
         app_label = 'edc_example'
         consent_model = 'edc_example.subjectconsent'
 
 
-class RequisitionTwo(CrfModelMixin, RequiresConsentMixin, UpdateRequisitionMetadataModelMixin, BaseUuidModel):
+class RequisitionTwo(CrfModelMixin, RequisitionModelMixin, RequiresConsentMixin,
+                     UpdateRequisitionMetadataModelMixin, BaseUuidModel):
 
     subject_visit = models.ForeignKey(SubjectVisit)
-
-    panel = models.ForeignKey(Panel)
-
-    f1 = models.CharField(max_length=10, default='erik')
 
     class Meta:
         app_label = 'edc_example'
         consent_model = 'edc_example.subjectconsent'
+
+
+class Aliquot(AliquotModelMixin, BaseUuidModel):
+
+    class Meta(AliquotModelMixin.Meta):
+        app_label = 'edc_example'
+
+
+class SpecimenCollection(SpecimenCollectionModelMixin, BaseUuidModel):
+
+    class Meta(SpecimenCollectionModelMixin.Meta):
+        app_label = 'edc_example'
+
+
+class SpecimenCollectionItem(SpecimenCollectionItemModelMixin, BaseUuidModel):
+
+    specimen_collection = models.ForeignKey(SpecimenCollection)
+
+    class Meta(SpecimenCollectionItemModelMixin.Meta):
+        app_label = 'edc_example'
 
 
 class CrfMetadata(CrfMetadataModelMixin, BaseUuidModel):

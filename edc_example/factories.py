@@ -5,8 +5,9 @@ from dateutil.relativedelta import relativedelta
 from django.utils import timezone
 from faker import Factory as FakerFactory
 
-from edc_example.models import SubjectConsent, SubjectVisit, Enrollment
+from edc_example.models import SubjectConsent, SubjectVisit, Enrollment, SubjectRequisition
 from edc_constants.constants import YES, NO
+from edc_visit_tracking.constants import SCHEDULED
 
 faker = FakerFactory.create()
 
@@ -46,7 +47,7 @@ class SubjectVisitFactory(factory.DjangoModelFactory):
     class Meta:
         model = SubjectVisit
 
-    # subject_identifier = '12345'
+    reason = SCHEDULED
     report_datetime = timezone.now() - relativedelta(minutes=30)
 
 
@@ -56,3 +57,17 @@ class EnrollmentFactory(factory.DjangoModelFactory):
 
     class Meta:
         model = Enrollment
+
+
+class SubjectRequisitionFactory(factory.DjangoModelFactory):
+
+    report_datetime = timezone.now()
+
+    requisition_datetime = timezone.now()
+
+    study_site = '55'
+
+    specimen_type = '02'
+
+    class Meta:
+        model = SubjectRequisition

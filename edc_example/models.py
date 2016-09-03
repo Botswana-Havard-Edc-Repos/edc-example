@@ -64,7 +64,7 @@ class SubjectVisit(VisitModelMixin, CreatesMetadataModelMixin, RequiresConsentMi
 
 class CrfOne(CrfModelMixin, RequiresConsentMixin, UpdateCrfMetadataModelMixin, BaseUuidModel):
 
-    subject_visit = models.ForeignKey(SubjectVisit)
+    subject_visit = models.OneToOneField(SubjectVisit)
 
     f1 = models.CharField(max_length=10, default='erik')
 
@@ -110,52 +110,57 @@ class CrfOneInline(CrfInlineModelMixin, RequiresConsentMixin, BaseUuidModel):
 
 class CrfTwo(CrfModelMixin, RequiresConsentMixin, UpdateCrfMetadataModelMixin, BaseUuidModel):
 
-    subject_visit = models.ForeignKey(SubjectVisit)
+    subject_visit = models.OneToOneField(SubjectVisit)
 
     f1 = models.CharField(max_length=10, default='erik')
 
     class Meta:
         app_label = 'edc_example'
+        consent_model = 'edc_example.subjectconsent'
 
 
 class CrfThree(CrfModelMixin, RequiresConsentMixin, UpdateCrfMetadataModelMixin, BaseUuidModel):
 
-    subject_visit = models.ForeignKey(SubjectVisit)
+    subject_visit = models.OneToOneField(SubjectVisit)
 
     f1 = models.CharField(max_length=10, default='erik')
 
     class Meta:
         app_label = 'edc_example'
+        consent_model = 'edc_example.subjectconsent'
 
 
 class CrfFour(CrfModelMixin, RequiresConsentMixin, UpdateCrfMetadataModelMixin, BaseUuidModel):
 
-    subject_visit = models.ForeignKey(SubjectVisit)
+    subject_visit = models.OneToOneField(SubjectVisit)
 
     f1 = models.CharField(max_length=10, default='erik')
 
     class Meta:
         app_label = 'edc_example'
+        consent_model = 'edc_example.subjectconsent'
 
 
 class CrfFive(CrfModelMixin, RequiresConsentMixin, UpdateCrfMetadataModelMixin, BaseUuidModel):
 
-    subject_visit = models.ForeignKey(SubjectVisit)
+    subject_visit = models.OneToOneField(SubjectVisit)
 
     f1 = models.CharField(max_length=10, default='erik')
 
     class Meta:
         app_label = 'edc_example'
+        consent_model = 'edc_example.subjectconsent'
 
 
 class CrfSix(CrfModelMixin, RequiresConsentMixin, UpdateCrfMetadataModelMixin, BaseUuidModel):
 
-    subject_visit = models.ForeignKey(SubjectVisit)
+    subject_visit = models.OneToOneField(SubjectVisit)
 
     f1 = models.CharField(max_length=10, default='erik')
 
     class Meta:
         app_label = 'edc_example'
+        consent_model = 'edc_example.subjectconsent'
 
 
 class Panel(BaseUuidModel):

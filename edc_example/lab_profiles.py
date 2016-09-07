@@ -34,5 +34,4 @@ lab_profile.add_panel(viral_load_panel)
 rdb_panel = RequisitionPanel('Research Blood Draw', wb)  # link this to the visit_schedule
 lab_profile.add_panel(rdb_panel)
 
-
 site_lab_profiles.register('edc_example.subjectrequisition', lab_profile)

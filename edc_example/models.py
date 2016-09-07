@@ -7,6 +7,7 @@ from edc_consent.field_mixins import ReviewFieldsMixin, PersonalFieldsMixin, Cit
 from edc_consent.field_mixins.bw.identity_fields_mixin import IdentityFieldsMixin
 from edc_consent.model_mixins import ConsentModelMixin
 from edc_consent.model_mixins import RequiresConsentMixin
+from edc_constants.constants import NO
 from edc_lab.requisition.model_mixins import RequisitionModelMixin
 from edc_metadata.model_mixins import (
     CrfMetadataModelMixin, RequisitionMetadataModelMixin, CreatesMetadataModelMixin,
@@ -67,6 +68,10 @@ class CrfOne(CrfModelMixin, RequiresConsentMixin, UpdatesCrfMetadataModelMixin, 
     subject_visit = models.OneToOneField(SubjectVisit)
 
     f1 = models.CharField(max_length=10, default='erik')
+
+    vl = models.CharField(max_length=10, default=NO)
+
+    rdb = models.CharField(max_length=10, default=NO)
 
     class Meta:
         consent_model = 'edc_example.subjectconsent'

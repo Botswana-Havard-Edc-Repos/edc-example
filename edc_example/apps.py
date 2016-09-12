@@ -1,4 +1,3 @@
-from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from django.apps.config import AppConfig as DjangoAppConfig
 from django.utils import timezone
@@ -7,7 +6,6 @@ from edc_consent.apps import AppConfig as EdcConsentAppConfigParent
 from edc_consent.consent_config import ConsentConfig
 from edc_timepoint.apps import AppConfig as EdcTimepointAppConfigParent
 from edc_timepoint.timepoint import Timepoint
-from edc_visit_schedule.apps import AppConfig as EdcVisitScheduleAppConfigParent
 from edc_protocol.apps import AppConfig as EdcProtocolAppConfigParent
 
 

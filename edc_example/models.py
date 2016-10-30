@@ -48,17 +48,16 @@ class Enrollment(CreateAppointmentsMixin, RegisteredSubjectMixin, RequiresConsen
 
 class Appointment(AppointmentModelMixin, RequiresConsentMixin, BaseUuidModel):
 
-    class Meta:
+    class Meta(AppointmentModelMixin.Meta):
         consent_model = 'edc_example.subjectconsent'
         app_label = 'edc_example'
 
 
-class SubjectVisit(VisitModelMixin, CreatesMetadataModelMixin, RequiresConsentMixin,
-                   PreviousVisitModelMixin, BaseUuidModel):
+class SubjectVisit(VisitModelMixin, CreatesMetadataModelMixin, RequiresConsentMixin, BaseUuidModel):
 
     appointment = models.OneToOneField(Appointment)
 
-    class Meta:
+    class Meta(VisitModelMixin.Meta):
         consent_model = 'edc_example.subjectconsent'
         app_label = 'edc_example'
 

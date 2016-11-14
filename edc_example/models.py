@@ -1,23 +1,22 @@
-from django.apps import apps as django_apps
 from django.db import models
+from django.apps import apps as django_apps
 from django.utils import timezone
 
 from edc_appointment.model_mixins import AppointmentModelMixin, CreateAppointmentsMixin
-from edc_base.model.models.base_uuid_model import BaseUuidModel
+from edc_base.model.models import BaseUuidModel
 from edc_consent.field_mixins import ReviewFieldsMixin, PersonalFieldsMixin, CitizenFieldsMixin, VulnerabilityFieldsMixin
 from edc_consent.field_mixins.bw.identity_fields_mixin import IdentityFieldsMixin
 from edc_consent.model_mixins import ConsentModelMixin
 from edc_consent.model_mixins import RequiresConsentMixin
 from edc_constants.constants import NO
-from edc_lab.requisition.model_mixins import RequisitionModelMixin
+from edc_lab.model_mixins import (
+    RequisitionModelMixin, AliquotModelMixin, SpecimenCollectionModelMixin, SpecimenCollectionItemModelMixin)
 from edc_metadata.model_mixins import (
     CrfMetadataModelMixin, RequisitionMetadataModelMixin, CreatesMetadataModelMixin,
     UpdatesCrfMetadataModelMixin, UpdatesRequisitionMetadataModelMixin)
 from edc_registration.model_mixins import RegisteredSubjectModelMixin, RegisteredSubjectMixin
 from edc_registration.model_mixins import RegistrationMixin
 from edc_visit_tracking.model_mixins import CrfModelMixin, CrfInlineModelMixin, PreviousVisitModelMixin, VisitModelMixin
-from edc_lab.aliquot.model_mixins import AliquotModelMixin
-from edc_lab.specimen.model_mixins import SpecimenCollectionModelMixin, SpecimenCollectionItemModelMixin
 
 if django_apps.is_installed('edc_sync'):
     from .sync_models import *

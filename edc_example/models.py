@@ -1,3 +1,4 @@
+from django.apps import apps as django_apps
 from django.db import models
 from django.utils import timezone
 
@@ -17,6 +18,9 @@ from edc_registration.model_mixins import RegistrationMixin
 from edc_visit_tracking.model_mixins import CrfModelMixin, CrfInlineModelMixin, PreviousVisitModelMixin, VisitModelMixin
 from edc_lab.aliquot.model_mixins import AliquotModelMixin
 from edc_lab.specimen.model_mixins import SpecimenCollectionModelMixin, SpecimenCollectionItemModelMixin
+
+if django_apps.is_installed('edc_sync'):
+    from .sync_models import *
 
 
 class RegisteredSubject(RegisteredSubjectModelMixin, BaseUuidModel):

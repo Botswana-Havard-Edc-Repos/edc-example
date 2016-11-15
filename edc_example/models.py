@@ -19,6 +19,7 @@ from edc_metadata.model_mixins import (
 from edc_registration.model_mixins import RegisteredSubjectModelMixin, RegisteredSubjectMixin
 from edc_registration.model_mixins import RegistrationMixin
 from edc_visit_tracking.model_mixins import CrfModelMixin, CrfInlineModelMixin, VisitModelMixin
+from edc_offstudy.model_mixins import OffstudyModelMixin
 
 
 class RegisteredSubject(RegisteredSubjectModelMixin, BaseUuidModel):
@@ -34,6 +35,12 @@ class SubjectConsent(ConsentModelMixin, RegistrationMixin, IdentityFieldsMixin,
     class Meta:
         app_label = 'edc_example'
         unique_together = ['subject_identifier', 'version']
+
+
+class SubjectOffstudy(OffstudyModelMixin, BaseUuidModel):
+
+    class Meta:
+        app_label = 'edc_example'
 
 
 class Enrollment(CreateAppointmentsMixin, RegisteredSubjectMixin, RequiresConsentMixin, BaseUuidModel):

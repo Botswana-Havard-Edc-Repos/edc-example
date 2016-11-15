@@ -1,9 +1,11 @@
 from django.db import models
-from django.apps import apps as django_apps
 from django.utils import timezone
 
+from django_crypto_fields.crypt_model_mixin import CryptModelMixin
+from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
+
 from edc_appointment.model_mixins import AppointmentModelMixin, CreateAppointmentsMixin
-from edc_base.model.models import BaseUuidModel
+from edc_base.model.models import BaseUuidModel, ListModelMixin, HistoricalRecords
 from edc_consent.field_mixins import ReviewFieldsMixin, PersonalFieldsMixin, CitizenFieldsMixin, VulnerabilityFieldsMixin
 from edc_consent.field_mixins.bw.identity_fields_mixin import IdentityFieldsMixin
 from edc_consent.model_mixins import ConsentModelMixin
@@ -16,10 +18,7 @@ from edc_metadata.model_mixins import (
     UpdatesCrfMetadataModelMixin, UpdatesRequisitionMetadataModelMixin)
 from edc_registration.model_mixins import RegisteredSubjectModelMixin, RegisteredSubjectMixin
 from edc_registration.model_mixins import RegistrationMixin
-from edc_visit_tracking.model_mixins import CrfModelMixin, CrfInlineModelMixin, PreviousVisitModelMixin, VisitModelMixin
-
-if django_apps.is_installed('edc_sync'):
-    from .sync_models import *
+from edc_visit_tracking.model_mixins import CrfModelMixin, CrfInlineModelMixin, VisitModelMixin
 
 
 class RegisteredSubject(RegisteredSubjectModelMixin, BaseUuidModel):
@@ -228,3 +227,132 @@ class RequisitionMetadata(RequisitionMetadataModelMixin, BaseUuidModel):
 
     class Meta(RequisitionMetadataModelMixin.Meta):
         app_label = 'edc_example'
+
+
+class Crypt(CryptModelMixin, BaseUuidModel):
+
+    class Meta:
+        app_label = 'edc_example'
+        unique_together = (('hash', 'algorithm', 'mode'),)
+
+
+class BadTestModel(BaseUuidModel):
+    """A test model that is missing natural_key and get_by_natural_key."""
+
+    f1 = models.CharField(max_length=10, default='f1')
+
+    objects = models.Manager()
+
+    class Meta:
+        app_label = 'edc_example'
+
+
+class AnotherBadTestModel(BaseUuidModel):
+    """A test model that is missing get_by_natural_key."""
+
+    f1 = models.CharField(max_length=10, default='f1')
+
+    objects = models.Manager()
+
+    def natural_key(self):
+        return (self.f1, )
+
+    class Meta:
+        app_label = 'edc_example'
+
+
+class TestModelManager(models.Manager):
+
+    def get_by_natural_key(self, f1):
+        return self.get(f1=f1)
+
+
+class TestModel(BaseUuidModel):
+
+    f1 = models.CharField(max_length=10, unique=True)
+
+    objects = TestModelManager()
+
+    history = HistoricalRecords()
+
+    def natural_key(self):
+        return (self.f1, )
+
+    class Meta:
+        app_label = 'edc_example'
+
+
+class TestModelProxy(TestModel):
+
+    class Meta:
+        app_label = 'edc_example'
+        proxy = True
+
+
+class TestEncryptedModel(BaseUuidModel):
+
+    f1 = models.CharField(max_length=10, unique=True)
+
+    encrypted = EncryptedCharField(max_length=10, unique=True)
+
+    objects = TestModelManager()
+
+    history = HistoricalRecords()
+
+    def natural_key(self):
+        return (self.f1, )
+
+    class Meta:
+        app_label = 'edc_example'
+
+
+class M2m(ListModelMixin, BaseUuidModel):
+
+    class Meta:
+        app_label = 'edc_example'
+
+
+class FkManager(models.Manager):
+
+    def get_by_natural_key(self, name):
+        return self.get(name=name)
+
+
+class Fk(BaseUuidModel):
+
+    name = models.CharField(max_length=10, unique=True)
+
+    objects = FkManager()
+
+    def natural_key(self):
+        return (self.name, )
+
+    class Meta:
+        app_label = 'edc_example'
+
+
+class ComplexTestModelManager(models.Manager):
+
+    def get_by_natural_key(self, f1, fk):
+        return self.get(f1=f1, fk=fk)
+
+
+class ComplexTestModel(BaseUuidModel):
+
+    f1 = models.CharField(max_length=10)
+
+    fk = models.ForeignKey(Fk)
+
+    m2m = models.ManyToManyField(M2m)
+
+    objects = ComplexTestModelManager()
+
+    history = HistoricalRecords()
+
+    def natural_key(self):
+        return (self.f1, ) + self.fk.natural_key()
+    natural_key.dependencies = ['example.fk']
+
+    class Meta:
+        app_label = 'edc_example'
+        unique_together = ('f1', 'fk')

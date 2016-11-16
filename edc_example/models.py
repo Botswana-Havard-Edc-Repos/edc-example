@@ -62,7 +62,7 @@ class Appointment(AppointmentModelMixin, RequiresConsentMixin, BaseUuidModel):
         app_label = 'edc_example'
 
 
-class SubjectVisit(VisitModelMixin, CreatesMetadataModelMixin, RequiresConsentMixin, BaseUuidModel):
+class SubjectVisit(VisitModelMixin, OffstudyMixin, CreatesMetadataModelMixin, RequiresConsentMixin, BaseUuidModel):
 
     appointment = models.OneToOneField(Appointment)
 
@@ -122,7 +122,7 @@ class CrfOneInline(CrfInlineModelMixin, RequiresConsentMixin, BaseUuidModel):
         app_label = 'edc_example'
 
 
-class CrfTwo(CrfModelMixin, RequiresConsentMixin, UpdatesCrfMetadataModelMixin, BaseUuidModel):
+class CrfTwo(CrfModelMixin, OffstudyMixin, RequiresConsentMixin, UpdatesCrfMetadataModelMixin, BaseUuidModel):
 
     subject_visit = models.OneToOneField(SubjectVisit)
 
@@ -133,7 +133,7 @@ class CrfTwo(CrfModelMixin, RequiresConsentMixin, UpdatesCrfMetadataModelMixin, 
         consent_model = 'edc_example.subjectconsent'
 
 
-class CrfThree(CrfModelMixin, RequiresConsentMixin, UpdatesCrfMetadataModelMixin, BaseUuidModel):
+class CrfThree(CrfModelMixin, OffstudyMixin, RequiresConsentMixin, UpdatesCrfMetadataModelMixin, BaseUuidModel):
 
     subject_visit = models.OneToOneField(SubjectVisit)
 
@@ -144,7 +144,7 @@ class CrfThree(CrfModelMixin, RequiresConsentMixin, UpdatesCrfMetadataModelMixin
         consent_model = 'edc_example.subjectconsent'
 
 
-class CrfFour(CrfModelMixin, RequiresConsentMixin, UpdatesCrfMetadataModelMixin, BaseUuidModel):
+class CrfFour(CrfModelMixin, OffstudyMixin, RequiresConsentMixin, UpdatesCrfMetadataModelMixin, BaseUuidModel):
 
     subject_visit = models.OneToOneField(SubjectVisit)
 
@@ -155,7 +155,7 @@ class CrfFour(CrfModelMixin, RequiresConsentMixin, UpdatesCrfMetadataModelMixin,
         consent_model = 'edc_example.subjectconsent'
 
 
-class CrfFive(CrfModelMixin, RequiresConsentMixin, UpdatesCrfMetadataModelMixin, BaseUuidModel):
+class CrfFive(CrfModelMixin, OffstudyMixin, RequiresConsentMixin, UpdatesCrfMetadataModelMixin, BaseUuidModel):
 
     subject_visit = models.OneToOneField(SubjectVisit)
 
@@ -166,7 +166,7 @@ class CrfFive(CrfModelMixin, RequiresConsentMixin, UpdatesCrfMetadataModelMixin,
         consent_model = 'edc_example.subjectconsent'
 
 
-class CrfSix(CrfModelMixin, RequiresConsentMixin, UpdatesCrfMetadataModelMixin, BaseUuidModel):
+class CrfSix(CrfModelMixin, OffstudyMixin, RequiresConsentMixin, UpdatesCrfMetadataModelMixin, BaseUuidModel):
 
     subject_visit = models.OneToOneField(SubjectVisit)
 
@@ -185,7 +185,7 @@ class Panel(BaseUuidModel):
         app_label = 'edc_example'
 
 
-class SubjectRequisition(CrfModelMixin, RequisitionModelMixin, RequiresConsentMixin,
+class SubjectRequisition(CrfModelMixin, OffstudyMixin, RequisitionModelMixin, RequiresConsentMixin,
                          UpdatesRequisitionMetadataModelMixin, BaseUuidModel):
 
     subject_visit = models.ForeignKey(SubjectVisit)

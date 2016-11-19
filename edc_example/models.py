@@ -20,6 +20,7 @@ from edc_registration.model_mixins import RegisteredSubjectModelMixin, Registere
 from edc_registration.model_mixins import RegistrationMixin
 from edc_visit_tracking.model_mixins import CrfModelMixin, CrfInlineModelMixin, VisitModelMixin
 from edc_offstudy.model_mixins import OffstudyModelMixin
+from django.db.models.deletion import PROTECT
 
 
 class RegisteredSubject(RegisteredSubjectModelMixin, BaseUuidModel):
@@ -39,8 +40,14 @@ class SubjectConsent(ConsentModelMixin, RegistrationMixin, IdentityFieldsMixin,
 
 class SubjectOffstudy(OffstudyModelMixin, BaseUuidModel):
 
+    objects = models.Manager()
+
+    history = HistoricalRecords()
+
     class Meta:
         app_label = 'edc_example'
+        visit_schedule_name = 'subject_visit_schedule'
+        consent_model = 'edc_example.subjectconsent'
 
 
 class Enrollment(CreateAppointmentsMixin, RegisteredSubjectMixin, RequiresConsentMixin, BaseUuidModel):
@@ -63,8 +70,6 @@ class Appointment(AppointmentModelMixin, RequiresConsentMixin, BaseUuidModel):
 
 
 class SubjectVisit(VisitModelMixin, CreatesMetadataModelMixin, RequiresConsentMixin, BaseUuidModel):
-
-    appointment = models.OneToOneField(Appointment)
 
     class Meta(VisitModelMixin.Meta):
         consent_model = 'edc_example.subjectconsent'

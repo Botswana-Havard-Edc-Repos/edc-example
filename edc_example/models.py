@@ -20,6 +20,7 @@ from edc_registration.model_mixins import RegisteredSubjectModelMixin
 from edc_registration.model_mixins import RegistrationMixin
 from edc_visit_tracking.model_mixins import CrfModelMixin, CrfInlineModelMixin, VisitModelMixin
 from edc_visit_schedule.model_mixins import DisenrollmentModelMixin, EnrollmentModelMixin
+from edc_visit_tracking.managers import VisitModelManager
 
 
 class RegisteredSubject(RegisteredSubjectModelMixin, BaseUuidModel):
@@ -76,6 +77,8 @@ class Appointment(AppointmentModelMixin, RequiresConsentMixin, BaseUuidModel):
 
 class SubjectVisit(VisitModelMixin, OffstudyMixin, CreatesMetadataModelMixin, RequiresConsentMixin, BaseUuidModel):
 
+    objects = VisitModelManager()
+
     class Meta(VisitModelMixin.Meta):
         consent_model = 'edc_example.subjectconsent'
         app_label = 'edc_example'
@@ -94,7 +97,6 @@ class CrfOne(CrfModelMixin, OffstudyMixin, RequiresConsentMixin, UpdatesCrfMetad
     class Meta:
         consent_model = 'edc_example.subjectconsent'
         app_label = 'edc_example'
-        offstudy_model = 'edc_example.subjectoffstudy'
 
 
 class OtherModel(BaseUuidModel):

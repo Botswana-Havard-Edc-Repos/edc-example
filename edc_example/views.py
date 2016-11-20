@@ -13,6 +13,6 @@ class HomeView(EdcBaseViewMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         visit_schedule = site_visit_schedules.visit_schedules.get('Example Visit Schedule')
-        context.update({'membership_forms': visit_schedule.membership_forms.get('schedule-1').get('example.subjectconsent')})
-        form = visit_schedule.membership_forms.get('schedule-1').get('example.subjectconsent')
+        context.update({'membership_forms': visit_schedule.membership_forms.get('schedule1').get('example.subjectconsent')})
+        form = visit_schedule.membership_forms.get('schedule1').get('example.subjectconsent')
         return context

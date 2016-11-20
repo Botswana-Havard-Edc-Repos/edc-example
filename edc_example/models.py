@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 
 from django_crypto_fields.crypt_model_mixin import CryptModelMixin
 from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
@@ -17,9 +16,10 @@ from edc_metadata.model_mixins import (
     CrfMetadataModelMixin, RequisitionMetadataModelMixin, CreatesMetadataModelMixin,
     UpdatesCrfMetadataModelMixin, UpdatesRequisitionMetadataModelMixin)
 from edc_offstudy.model_mixins import OffstudyModelMixin, OffstudyMixin
-from edc_registration.model_mixins import RegisteredSubjectModelMixin, RegisteredSubjectMixin
+from edc_registration.model_mixins import RegisteredSubjectModelMixin
 from edc_registration.model_mixins import RegistrationMixin
 from edc_visit_tracking.model_mixins import CrfModelMixin, CrfInlineModelMixin, VisitModelMixin
+from edc_visit_schedule.model_mixins import DisenrollmentModelMixin, EnrollmentModelMixin
 
 
 class RegisteredSubject(RegisteredSubjectModelMixin, BaseUuidModel):
@@ -49,13 +49,19 @@ class SubjectOffstudy(OffstudyModelMixin, BaseUuidModel):
         consent_model = 'edc_example.subjectconsent'
 
 
-class Enrollment(CreateAppointmentsMixin, RegisteredSubjectMixin, RequiresConsentMixin, BaseUuidModel):
-
-    report_datetime = models.DateTimeField(default=timezone.now)
+class Enrollment(EnrollmentModelMixin, CreateAppointmentsMixin, RequiresConsentMixin, BaseUuidModel):
 
     is_eligible = models.BooleanField(default=True)
 
-    class Meta:
+    class Meta(EnrollmentModelMixin.Meta):
+        visit_schedule_name = 'subject_visit_schedule'
+        consent_model = 'edc_example.subjectconsent'
+        app_label = 'edc_example'
+
+
+class Disenrollment(DisenrollmentModelMixin, RequiresConsentMixin, BaseUuidModel):
+
+    class Meta(DisenrollmentModelMixin.Meta):
         visit_schedule_name = 'subject_visit_schedule'
         consent_model = 'edc_example.subjectconsent'
         app_label = 'edc_example'

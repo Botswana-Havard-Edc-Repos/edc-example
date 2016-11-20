@@ -22,42 +22,43 @@ subject_visit_schedule = VisitSchedule(
     verbose_name='Example Visit Schedule',
     app_label='edc_example',
     visit_model='edc_example.subjectvisit',
+    offstudy_model='edc_example.subjectoffstudy',
+    enrollment_model='edc_example.enrollment',
+    disenrollment_model='edc_example.disenrollment',
 )
 
-# add schedules
-schedule = Schedule(name='schedule-1', enrollment_model='edc_example.enrollment')
-
-# add visits to this schedule
-schedule.add_visit(
-    code='1000',
-    title='Visit 1000',
-    timepoint=0,
-    base_interval=0,
-    requisitions=requisitions,
-    crfs=crfs)
-schedule.add_visit(
-    code='2000',
-    title='Visit 2000',
-    timepoint=1,
-    base_interval=1,
-    requisitions=requisitions,
-    crfs=crfs)
-schedule.add_visit(
-    code='3000',
-    title='Visit 3000',
-    timepoint=2,
-    base_interval=2,
-    requisitions=requisitions,
-    crfs=crfs)
-schedule.add_visit(
-    code='4000',
-    title='Visit 4000',
-    timepoint=3,
-    base_interval=3,
-    requisitions=requisitions,
-    crfs=crfs)
-
-subject_visit_schedule.add_schedule(schedule)
+for name in ['schedule1', 'schedule2']:
+    schedule = Schedule(name=name)
+    # add visits to this schedule
+    schedule.add_visit(
+        code='1000',
+        title='Visit 1000',
+        timepoint=0,
+        base_interval=0,
+        requisitions=requisitions,
+        crfs=crfs)
+    schedule.add_visit(
+        code='2000',
+        title='Visit 2000',
+        timepoint=1,
+        base_interval=1,
+        requisitions=requisitions,
+        crfs=crfs)
+    schedule.add_visit(
+        code='3000',
+        title='Visit 3000',
+        timepoint=2,
+        base_interval=2,
+        requisitions=requisitions,
+        crfs=crfs)
+    schedule.add_visit(
+        code='4000',
+        title='Visit 4000',
+        timepoint=3,
+        base_interval=3,
+        requisitions=requisitions,
+        crfs=crfs)
+    subject_visit_schedule.add_schedule(schedule)
 
 # register the visit_schedule
 site_visit_schedules.register(subject_visit_schedule)

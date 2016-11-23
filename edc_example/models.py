@@ -5,19 +5,19 @@ from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
 
 from edc_appointment.model_mixins import AppointmentModelMixin, CreateAppointmentsMixin
 from edc_base.model.models import BaseUuidModel, ListModelMixin, HistoricalRecords
-from edc_consent.field_mixins import ReviewFieldsMixin, PersonalFieldsMixin, CitizenFieldsMixin, VulnerabilityFieldsMixin
+from edc_consent.field_mixins import (
+    ReviewFieldsMixin, PersonalFieldsMixin, CitizenFieldsMixin, VulnerabilityFieldsMixin)
 from edc_consent.field_mixins.bw.identity_fields_mixin import IdentityFieldsMixin
 from edc_consent.model_mixins import ConsentModelMixin
 from edc_consent.model_mixins import RequiresConsentMixin
 from edc_constants.constants import NO
-from edc_lab.model_mixins import (
-    RequisitionModelMixin, AliquotModelMixin, SpecimenCollectionModelMixin, SpecimenCollectionItemModelMixin)
+from edc_lab.model_mixins import RequisitionModelMixin
 from edc_metadata.model_mixins import (
     CrfMetadataModelMixin, RequisitionMetadataModelMixin, CreatesMetadataModelMixin,
     UpdatesCrfMetadataModelMixin, UpdatesRequisitionMetadataModelMixin)
 from edc_offstudy.model_mixins import OffstudyModelMixin, OffstudyMixin
 from edc_registration.model_mixins import RegisteredSubjectModelMixin
-from edc_registration.model_mixins import RegistrationMixin
+from edc_registration.model_mixins import UpdatesOrCreatesRegistrationModelMixin
 from edc_visit_tracking.model_mixins import CrfModelMixin, CrfInlineModelMixin, VisitModelMixin
 from edc_visit_schedule.model_mixins import DisenrollmentModelMixin, EnrollmentModelMixin
 from edc_visit_tracking.managers import VisitModelManager
@@ -29,7 +29,7 @@ class RegisteredSubject(RegisteredSubjectModelMixin, BaseUuidModel):
         app_label = 'edc_example'
 
 
-class SubjectConsent(ConsentModelMixin, RegistrationMixin, IdentityFieldsMixin,
+class SubjectConsent(ConsentModelMixin, UpdatesOrCreatesRegistrationModelMixin, IdentityFieldsMixin,
                      ReviewFieldsMixin, PersonalFieldsMixin, CitizenFieldsMixin, VulnerabilityFieldsMixin,
                      BaseUuidModel):
 
@@ -52,10 +52,24 @@ class SubjectOffstudy(OffstudyModelMixin, BaseUuidModel):
 
 class Enrollment(EnrollmentModelMixin, CreateAppointmentsMixin, RequiresConsentMixin, BaseUuidModel):
 
-    is_eligible = models.BooleanField(default=True)
+    class Meta(EnrollmentModelMixin.Meta):
+        visit_schedule_name = 'subject_visit_schedule'
+        consent_model = 'edc_example.subjectconsent'
+        app_label = 'edc_example'
+
+
+class EnrollmentTwo(EnrollmentModelMixin, CreateAppointmentsMixin, RequiresConsentMixin, BaseUuidModel):
 
     class Meta(EnrollmentModelMixin.Meta):
         visit_schedule_name = 'subject_visit_schedule'
+        consent_model = 'edc_example.subjectconsent'
+        app_label = 'edc_example'
+
+
+class EnrollmentThree(EnrollmentModelMixin, CreateAppointmentsMixin, RequiresConsentMixin, BaseUuidModel):
+
+    class Meta(EnrollmentModelMixin.Meta):
+        visit_schedule_name = 'subject_visit_schedule.schedule3'
         consent_model = 'edc_example.subjectconsent'
         app_label = 'edc_example'
 
@@ -215,26 +229,6 @@ class RequisitionTwo(CrfModelMixin, RequisitionModelMixin, RequiresConsentMixin,
     class Meta:
         app_label = 'edc_example'
         consent_model = 'edc_example.subjectconsent'
-
-
-class Aliquot(AliquotModelMixin, BaseUuidModel):
-
-    class Meta(AliquotModelMixin.Meta):
-        app_label = 'edc_example'
-
-
-class SpecimenCollection(SpecimenCollectionModelMixin, BaseUuidModel):
-
-    class Meta(SpecimenCollectionModelMixin.Meta):
-        app_label = 'edc_example'
-
-
-class SpecimenCollectionItem(SpecimenCollectionItemModelMixin, BaseUuidModel):
-
-    specimen_collection = models.ForeignKey(SpecimenCollection)
-
-    class Meta(SpecimenCollectionItemModelMixin.Meta):
-        app_label = 'edc_example'
 
 
 class CrfMetadata(CrfMetadataModelMixin, BaseUuidModel):

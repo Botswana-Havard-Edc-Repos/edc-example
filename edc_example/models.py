@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.deletion import PROTECT
 
 from django_crypto_fields.crypt_model_mixin import CryptModelMixin
 from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
@@ -53,7 +54,7 @@ class SubjectOffstudy(OffstudyModelMixin, BaseUuidModel):
 class Enrollment(EnrollmentModelMixin, CreateAppointmentsMixin, RequiresConsentMixin, BaseUuidModel):
 
     class Meta(EnrollmentModelMixin.Meta):
-        visit_schedule_name = 'subject_visit_schedule'
+        visit_schedule_name = 'subject_visit_schedule.schedule1'
         consent_model = 'edc_example.subjectconsent'
         app_label = 'edc_example'
 
@@ -61,13 +62,13 @@ class Enrollment(EnrollmentModelMixin, CreateAppointmentsMixin, RequiresConsentM
 class EnrollmentTwo(EnrollmentModelMixin, CreateAppointmentsMixin, RequiresConsentMixin, BaseUuidModel):
 
     class Meta(EnrollmentModelMixin.Meta):
-        visit_schedule_name = 'subject_visit_schedule'
+        visit_schedule_name = 'subject_visit_schedule.schedule2'
         consent_model = 'edc_example.subjectconsent'
         app_label = 'edc_example'
 
 
 class EnrollmentThree(EnrollmentModelMixin, CreateAppointmentsMixin, RequiresConsentMixin, BaseUuidModel):
-
+    """Includes schedule_name on Meta"""
     class Meta(EnrollmentModelMixin.Meta):
         visit_schedule_name = 'subject_visit_schedule.schedule3'
         consent_model = 'edc_example.subjectconsent'
@@ -77,7 +78,23 @@ class EnrollmentThree(EnrollmentModelMixin, CreateAppointmentsMixin, RequiresCon
 class Disenrollment(DisenrollmentModelMixin, RequiresConsentMixin, BaseUuidModel):
 
     class Meta(DisenrollmentModelMixin.Meta):
-        visit_schedule_name = 'subject_visit_schedule'
+        visit_schedule_name = 'subject_visit_schedule.schedule1'
+        consent_model = 'edc_example.subjectconsent'
+        app_label = 'edc_example'
+
+
+class DisenrollmentTwo(DisenrollmentModelMixin, RequiresConsentMixin, BaseUuidModel):
+
+    class Meta(DisenrollmentModelMixin.Meta):
+        visit_schedule_name = 'subject_visit_schedule.schedule2'
+        consent_model = 'edc_example.subjectconsent'
+        app_label = 'edc_example'
+
+
+class DisenrollmentThree(DisenrollmentModelMixin, RequiresConsentMixin, BaseUuidModel):
+
+    class Meta(DisenrollmentModelMixin.Meta):
+        visit_schedule_name = 'subject_visit_schedule.schedule3'
         consent_model = 'edc_example.subjectconsent'
         app_label = 'edc_example'
 
@@ -90,6 +107,8 @@ class Appointment(AppointmentModelMixin, RequiresConsentMixin, BaseUuidModel):
 
 
 class SubjectVisit(VisitModelMixin, OffstudyMixin, CreatesMetadataModelMixin, RequiresConsentMixin, BaseUuidModel):
+
+    appointment = models.OneToOneField(Appointment, on_delete=PROTECT)
 
     objects = VisitModelManager()
 

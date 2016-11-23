@@ -23,11 +23,20 @@ subject_visit_schedule = VisitSchedule(
     verbose_name='Example Visit Schedule',
     app_label='edc_example',
     visit_model='edc_example.subjectvisit',
-    offstudy_model='edc_example.subjectoffstudy',
-    default_enrollment_model='edc_example.enrollment',
-    default_disenrollment_model='edc_example.disenrollment')
+    offstudy_model='edc_example.subjectoffstudy')
 
-schedule = Schedule(name='schedule1')
+subject_visit_schedule2 = VisitSchedule(
+    name='subject_visit_schedule2',
+    verbose_name='Another Example Visit Schedule',
+    app_label='edc_example',
+    visit_model='edc_example.subjectvisit',
+    offstudy_model='edc_example.subjectoffstudy')
+
+
+schedule = Schedule(
+    name='schedule1',
+    enrollment_model='edc_example.enrollment',
+    disenrollment_model='edc_example.disenrollment')
 # add visits to this schedule
 schedule.add_visit(
     code='1000',
@@ -60,7 +69,10 @@ schedule.add_visit(
 subject_visit_schedule.add_schedule(schedule)
 
 # create a second schedule
-schedule = Schedule(name='schedule2', enrollment_model='edc_example.enrollmenttwo')
+schedule = Schedule(
+    name='schedule2',
+    enrollment_model='edc_example.enrollmenttwo',
+    disenrollment_model='edc_example.disenrollmenttwo')
 # add visits to this schedule
 schedule.add_visit(
     code='1000',
@@ -93,7 +105,10 @@ schedule.add_visit(
 subject_visit_schedule.add_schedule(schedule)
 
 # create a third schedule
-schedule = Schedule(name='schedule3', enrollment_model='edc_example.enrollmentthree')
+schedule = Schedule(
+    name='schedule3',
+    enrollment_model='edc_example.enrollmentthree',
+    disenrollment_model='edc_example.disenrollmentthree')
 # add visits to this schedule
 schedule.add_visit(
     code='1000',
@@ -127,3 +142,4 @@ subject_visit_schedule.add_schedule(schedule)
 
 # register the visit_schedule
 site_visit_schedules.register(subject_visit_schedule)
+site_visit_schedules.register(subject_visit_schedule2)

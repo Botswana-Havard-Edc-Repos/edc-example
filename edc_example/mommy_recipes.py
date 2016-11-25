@@ -3,8 +3,9 @@ from model_mommy.recipe import Recipe, seq
 from django.utils import timezone
 
 from edc_base.edc_faker import edc_faker
+from edc_visit_tracking.constants import SCHEDULED
 
-from .models import SubjectConsent
+from .models import SubjectConsent, SubjectVisit
 
 
 subjectconsent = Recipe(
@@ -20,3 +21,7 @@ subjectconsent = Recipe(
     identity_type='OMANG',
     is_dob_estimated='-',
 )
+
+subjectvisit = Recipe(
+    SubjectVisit,
+    reason=SCHEDULED)

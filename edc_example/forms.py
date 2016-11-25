@@ -1,6 +1,6 @@
 from django import forms
 
-from edc_consent.forms_mixins import ConsentFormMixin
+from edc_consent.form_mixins import ConsentFormMixin
 
 from .models import SubjectConsent
 

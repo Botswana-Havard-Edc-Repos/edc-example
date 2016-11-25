@@ -1,6 +1,6 @@
-from edc_base.views import EdcBaseViewMixin
 from django.views.generic.base import TemplateView
-from .visit_schedules import site_visit_schedules
+
+from edc_base.views import EdcBaseViewMixin
 
 
 class HomeView(EdcBaseViewMixin, TemplateView):
@@ -9,10 +9,3 @@ class HomeView(EdcBaseViewMixin, TemplateView):
 
     def __init__(self, *args, **kwargs):
         super(HomeView, self).__init__(*args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        visit_schedule = site_visit_schedules.visit_schedules.get('Example Visit Schedule')
-        context.update({'membership_forms': visit_schedule.membership_forms.get('schedule1').get('example.subjectconsent')})
-        form = visit_schedule.membership_forms.get('schedule1').get('example.subjectconsent')
-        return context

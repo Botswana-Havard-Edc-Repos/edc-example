@@ -1,3 +1,5 @@
+etc/*
+edc_example/migrations/*
 *.py[cod]
 *.sh
 .project

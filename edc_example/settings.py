@@ -35,13 +35,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
     'django_crypto_fields.apps.AppConfig',
-    'edc_protocol.apps.AppConfig',
-    'edc_base.apps.AppConfig',
+    'django_revision.apps.AppConfig',
     'edc_appointment.apps.AppConfig',
+    'edc_base.apps.AppConfig',
+    'edc_device.apps.AppConfig',
+    'edc_identifier.apps.AppConfig',
+    'edc_metadata.apps.AppConfig',
+    'edc_registration.apps.AppConfig',
+    'edc_visit_schedule.apps.AppConfig',
+    'edc_visit_tracking.apps.AppConfig',
     'edc_example.apps.EdcConsentAppConfig',
-    'edc_example.apps.AppConfig'
+    'edc_example.apps.EdcProtocolAppConfig',
+    'edc_example.apps.EdcTimepointAppConfig',
+    'edc_example.apps.AppConfig',
 ]
+
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -72,7 +82,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'example.wsgi.application'
+WSGI_APPLICATION = 'edc_example.wsgi.application'
 
 
 # Database
@@ -84,6 +94,18 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'OPTIONS': {
+#             'read_default_file': os.path.join(BASE_DIR, 'etc', 'default.cnf'),
+#         },
+#         'HOST': '',
+#         'PORT': '',
+#         'ATOMIC_REQUESTS': True,
+#     }
+# }
 
 
 # Password validation
@@ -121,6 +143,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
-
 STATIC_URL = '/static/'
-GIT_DIR = BASE_DIR
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+KEY_PATH = os.path.join(BASE_DIR, 'crypto_fields')

@@ -15,7 +15,10 @@ class AppConfig(DjangoAppConfig):
 
 
 class EdcProtocolAppConfig(EdcProtocolAppConfigParent):
-    enrollment_caps = {'edc_example.enrollment': ('subject', -1)}  # {label_lower: (key, count)}
+    enrollment_caps = {
+        'edc_example.enrollment': ('subject', -1),  # {label_lower: (key, count)}
+        'edc_example.enrollmenttwo': ('subject', -1),  # {label_lower: (key, count)}
+        'edc_example.enrollmentthree': ('subject', -1)}
 
 
 class EdcConsentAppConfig(EdcConsentAppConfigParent):

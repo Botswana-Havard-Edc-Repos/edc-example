@@ -384,7 +384,7 @@ class ComplexTestModel(BaseUuidModel):
 
     def natural_key(self):
         return (self.f1, ) + self.fk.natural_key()
-    natural_key.dependencies = ['example.fk']
+    natural_key.dependencies = ['edc_example.fk']
 
     class Meta:
         app_label = 'edc_example'

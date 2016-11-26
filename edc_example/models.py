@@ -4,7 +4,8 @@ from django.db.models.deletion import PROTECT
 from django_crypto_fields.crypt_model_mixin import CryptModelMixin
 from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
 
-from edc_appointment.model_mixins import AppointmentModelMixin, CreateAppointmentsMixin
+from edc_appointment.models import Appointment
+from edc_appointment.model_mixins import CreateAppointmentsMixin
 from edc_base.model.models import BaseUuidModel, ListModelMixin, HistoricalRecords
 from edc_consent.field_mixins import (
     ReviewFieldsMixin, PersonalFieldsMixin, CitizenFieldsMixin, VulnerabilityFieldsMixin)
@@ -17,17 +18,10 @@ from edc_metadata.model_mixins import (
     CrfMetadataModelMixin, RequisitionMetadataModelMixin, CreatesMetadataModelMixin,
     UpdatesCrfMetadataModelMixin, UpdatesRequisitionMetadataModelMixin)
 from edc_offstudy.model_mixins import OffstudyModelMixin, OffstudyMixin
-from edc_registration.model_mixins import RegisteredSubjectModelMixin
 from edc_registration.model_mixins import UpdatesOrCreatesRegistrationModelMixin
 from edc_visit_tracking.model_mixins import CrfModelMixin, CrfInlineModelMixin, VisitModelMixin
 from edc_visit_schedule.model_mixins import DisenrollmentModelMixin, EnrollmentModelMixin
 from edc_visit_tracking.managers import VisitModelManager
-
-
-class RegisteredSubject(RegisteredSubjectModelMixin, BaseUuidModel):
-
-    class Meta:
-        app_label = 'edc_example'
 
 
 class SubjectConsent(ConsentModelMixin, UpdatesOrCreatesRegistrationModelMixin, IdentityFieldsMixin,
@@ -95,13 +89,6 @@ class DisenrollmentThree(DisenrollmentModelMixin, RequiresConsentMixin, BaseUuid
 
     class Meta(DisenrollmentModelMixin.Meta):
         visit_schedule_name = 'subject_visit_schedule.schedule3'
-        consent_model = 'edc_example.subjectconsent'
-        app_label = 'edc_example'
-
-
-class Appointment(AppointmentModelMixin, RequiresConsentMixin, BaseUuidModel):
-
-    class Meta(AppointmentModelMixin.Meta):
         consent_model = 'edc_example.subjectconsent'
         app_label = 'edc_example'
 

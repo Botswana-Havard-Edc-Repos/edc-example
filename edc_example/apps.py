@@ -3,6 +3,7 @@ from dateutil.relativedelta import relativedelta
 from django.apps.config import AppConfig as DjangoAppConfig
 from django.utils import timezone
 
+from edc_base.utils import get_utcnow
 from edc_consent.apps import AppConfig as EdcConsentAppConfigParent
 from edc_consent.consent_config import ConsentConfig
 from edc_timepoint.apps import AppConfig as EdcTimepointAppConfigParent
@@ -26,8 +27,8 @@ class EdcConsentAppConfig(EdcConsentAppConfigParent):
         ConsentConfig(
             'edc_example.subjectconsent',
             version='1',
-            start=timezone.now() - relativedelta(years=1),
-            end=timezone.now() + relativedelta(years=1),
+            start=get_utcnow() - relativedelta(years=1),
+            end=get_utcnow() + relativedelta(years=1),
             age_min=16,
             age_is_adult=18,
             age_max=64,

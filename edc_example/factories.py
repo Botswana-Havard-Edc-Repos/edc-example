@@ -2,12 +2,13 @@ import factory
 
 from datetime import date
 from dateutil.relativedelta import relativedelta
-from django.utils import timezone
 from faker import Factory as FakerFactory
 
-from edc_example.models import SubjectConsent, SubjectVisit, Enrollment, SubjectRequisition
+from edc_base.utils import get_utcnow
 from edc_constants.constants import YES, NO
 from edc_visit_tracking.constants import SCHEDULED
+
+from .models import SubjectConsent, SubjectVisit, Enrollment, SubjectRequisition
 
 faker = FakerFactory.create()
 
@@ -18,7 +19,7 @@ class SubjectConsentFactory(factory.DjangoModelFactory):
         model = SubjectConsent
 
     confirm_identity = '123156789'
-    consent_datetime = timezone.now() - relativedelta(minutes=45)
+    consent_datetime = get_utcnow() - relativedelta(minutes=45)
     dob = date.today() - relativedelta(years=25)
     first_name = factory.LazyAttribute(lambda x: 'E{}'.format(faker.first_name().upper()))
     gender = 'M'
@@ -48,12 +49,12 @@ class SubjectVisitFactory(factory.DjangoModelFactory):
         model = SubjectVisit
 
     reason = SCHEDULED
-    report_datetime = timezone.now() - relativedelta(minutes=30)
+    report_datetime = get_utcnow() - relativedelta(minutes=30)
 
 
 class EnrollmentFactory(factory.DjangoModelFactory):
 
-    report_datetime = timezone.now() - relativedelta(minutes=15)
+    report_datetime = get_utcnow() - relativedelta(minutes=15)
 
     class Meta:
         model = Enrollment
@@ -61,9 +62,9 @@ class EnrollmentFactory(factory.DjangoModelFactory):
 
 class SubjectRequisitionFactory(factory.DjangoModelFactory):
 
-    report_datetime = timezone.now()
+    report_datetime = get_utcnow()
 
-    requisition_datetime = timezone.now()
+    requisition_datetime = get_utcnow()
 
     study_site = '55'
 

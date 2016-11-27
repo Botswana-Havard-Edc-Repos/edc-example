@@ -1,15 +1,13 @@
 from faker import Faker
 from model_mommy.recipe import Recipe, seq
 
-from django.utils import timezone
-
 from edc_base.faker import EdcBaseProvider
+from edc_base.utils import get_utcnow
+from edc_constants.constants import YES
 from edc_lab.faker import EdcLabProvider
 from edc_visit_tracking.constants import SCHEDULED
 
-from .models import SubjectConsent, SubjectVisit, EnrollmentTwo, EnrollmentThree, SubjectRequisition
-from edc_example.models import Enrollment
-from edc_constants.constants import YES
+from .models import SubjectConsent, SubjectVisit, EnrollmentTwo, EnrollmentThree, SubjectRequisition, Enrollment
 
 fake = Faker()
 fake.add_provider(EdcBaseProvider)
@@ -18,7 +16,7 @@ fake.add_provider(EdcLabProvider)
 
 subjectconsent = Recipe(
     SubjectConsent,
-    consent_datetime=timezone.now,
+    consent_datetime=get_utcnow,
     dob=fake.dob_for_consenting_adult,
     first_name=fake.first_name,
     last_name=fake.last_name,
@@ -48,6 +46,6 @@ enrollmentthree = Recipe(
 
 subjectrequisition = Recipe(
     SubjectRequisition,
-    requisition_identifier=edc_lab_faker.requisition_identifier,
+    requisition_identifier=fake.requisition_identifier,
     specimen_type='WB',
     is_drawn=YES)

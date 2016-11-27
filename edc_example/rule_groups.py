@@ -1,13 +1,13 @@
 from edc_constants.constants import MALE, FEMALE, YES
 from edc_metadata.constants import NOT_REQUIRED, REQUIRED
-from edc_rule_groups.logic import Logic
 from edc_rule_groups.crf_rule import CrfRule
-# RequisitionRule
-from edc_rule_groups.rule_group import RuleGroup
-from edc_rule_groups.predicate import P
 from edc_rule_groups.decorators import register
+from edc_rule_groups.logic import Logic
+from edc_rule_groups.predicate import P
 from edc_rule_groups.requisition_rule import RequisitionRule
-from edc_example.lab_profiles import viral_load_panel, rdb_panel
+from edc_rule_groups.rule_group import RuleGroup
+
+from .lab_profiles import viral_load_panel, rdb_panel
 
 
 @register()

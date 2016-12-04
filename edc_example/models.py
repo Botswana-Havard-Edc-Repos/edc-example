@@ -22,6 +22,7 @@ from edc_registration.model_mixins import UpdatesOrCreatesRegistrationModelMixin
 from edc_visit_tracking.model_mixins import CrfModelMixin, CrfInlineModelMixin, VisitModelMixin
 from edc_visit_schedule.model_mixins import DisenrollmentModelMixin, EnrollmentModelMixin
 from edc_visit_tracking.managers import VisitModelManager
+from edc_protocol.model_mixins import SubjectTypeCapMixin
 
 
 class SubjectConsent(ConsentModelMixin, UpdatesOrCreatesRegistrationModelMixin, IdentityFieldsMixin,
@@ -53,7 +54,10 @@ class Enrollment(EnrollmentModelMixin, CreateAppointmentsMixin, RequiresConsentM
         app_label = 'edc_example'
 
 
-class EnrollmentTwo(EnrollmentModelMixin, CreateAppointmentsMixin, RequiresConsentMixin, BaseUuidModel):
+class EnrollmentTwo(EnrollmentModelMixin, SubjectTypeCapMixin, CreateAppointmentsMixin,
+                    RequiresConsentMixin, BaseUuidModel):
+
+    subject_type = models.CharField(max_length=15, editable=False)
 
     class Meta(EnrollmentModelMixin.Meta):
         visit_schedule_name = 'subject_visit_schedule.schedule2'
@@ -61,12 +65,14 @@ class EnrollmentTwo(EnrollmentModelMixin, CreateAppointmentsMixin, RequiresConse
         app_label = 'edc_example'
 
 
-class EnrollmentThree(EnrollmentModelMixin, CreateAppointmentsMixin, RequiresConsentMixin, BaseUuidModel):
+class EnrollmentThree(EnrollmentModelMixin, SubjectTypeCapMixin, CreateAppointmentsMixin,
+                      RequiresConsentMixin, BaseUuidModel):
     """Includes schedule_name on Meta"""
     class Meta(EnrollmentModelMixin.Meta):
         visit_schedule_name = 'subject_visit_schedule.schedule3'
         consent_model = 'edc_example.subjectconsent'
         app_label = 'edc_example'
+        subject_type_name = 'subject'
 
 
 class Disenrollment(DisenrollmentModelMixin, RequiresConsentMixin, BaseUuidModel):

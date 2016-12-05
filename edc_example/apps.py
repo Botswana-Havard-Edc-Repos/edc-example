@@ -42,7 +42,7 @@ class EdcConsentAppConfig(EdcConsentAppConfigParent):
 class EdcTimepointAppConfig(EdcTimepointAppConfigParent):
     timepoints = [
         Timepoint(
-            model='edc_example.appointment',
+            model='edc_appointment.appointment',
             datetime_field='appt_datetime',
             status_field='appt_status',
             closed_status='CLOSED'

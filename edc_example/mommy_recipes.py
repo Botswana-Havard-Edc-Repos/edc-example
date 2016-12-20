@@ -1,7 +1,7 @@
 from faker import Faker
 from model_mommy.recipe import Recipe, seq
 
-from edc_base.faker import EdcBaseProvider
+from edc_base_test.faker import EdcBaseProvider
 from edc_base.utils import get_utcnow
 from edc_constants.constants import YES
 from edc_lab.faker import EdcLabProvider

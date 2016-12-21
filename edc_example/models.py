@@ -13,6 +13,7 @@ from edc_consent.field_mixins.bw.identity_fields_mixin import IdentityFieldsMixi
 from edc_consent.model_mixins import ConsentModelMixin
 from edc_consent.model_mixins import RequiresConsentMixin
 from edc_constants.constants import NO
+from edc_identifier.model_mixins import SubjectIdentifierModelMixin
 from edc_lab.model_mixins import RequisitionModelMixin
 from edc_metadata.model_mixins import (
     CrfMetadataModelMixin, RequisitionMetadataModelMixin, CreatesMetadataModelMixin,
@@ -25,9 +26,9 @@ from edc_visit_tracking.managers import VisitModelManager
 from edc_protocol.model_mixins import SubjectTypeCapMixin
 
 
-class SubjectConsent(ConsentModelMixin, UpdatesOrCreatesRegistrationModelMixin, IdentityFieldsMixin,
-                     ReviewFieldsMixin, PersonalFieldsMixin, CitizenFieldsMixin, VulnerabilityFieldsMixin,
-                     BaseUuidModel):
+class SubjectConsent(ConsentModelMixin, SubjectIdentifierModelMixin, UpdatesOrCreatesRegistrationModelMixin,
+                     IdentityFieldsMixin, ReviewFieldsMixin, PersonalFieldsMixin, CitizenFieldsMixin,
+                     VulnerabilityFieldsMixin, BaseUuidModel):
 
     class Meta:
         app_label = 'edc_example'

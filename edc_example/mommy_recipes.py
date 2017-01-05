@@ -1,19 +1,15 @@
 from faker import Faker
 from model_mommy.recipe import Recipe, seq
 
-from django.apps import apps as django_apps
-
-from edc_base_test.faker import EdcBaseProvider
+from edc_base_test.faker import EdcBaseProvider, get_utcnow
 from edc_constants.constants import YES, MALE, NO
 from edc_lab.faker import EdcLabProvider
 from edc_visit_tracking.constants import SCHEDULED
 
-from .models import SubjectConsent, SubjectVisit, EnrollmentTwo, EnrollmentThree, SubjectRequisition, Enrollment
-from edc_example.models import CrfOne
+from .models import (
+    SubjectConsent, SubjectVisit, EnrollmentTwo, EnrollmentThree, SubjectRequisition,
+    Enrollment, CrfOne)
 
-
-def get_utcnow():
-    return django_apps.get_app_config('edc_base_test').get_utcnow()
 
 fake = Faker()
 fake.add_provider(EdcBaseProvider)

@@ -16,8 +16,7 @@ from edc_constants.constants import NO
 from edc_identifier.model_mixins import NonUniqueSubjectIdentifierModelMixin
 from edc_lab.model_mixins import RequisitionModelMixin
 from edc_metadata.model_mixins import (
-    CrfMetadataModelMixin, RequisitionMetadataModelMixin, CreatesMetadataModelMixin,
-    UpdatesCrfMetadataModelMixin, UpdatesRequisitionMetadataModelMixin)
+    CreatesMetadataModelMixin, UpdatesCrfMetadataModelMixin, UpdatesRequisitionMetadataModelMixin)
 from edc_offstudy.model_mixins import OffstudyModelMixin, OffstudyMixin
 from edc_registration.model_mixins import UpdatesOrCreatesRegistrationModelMixin
 from edc_visit_tracking.model_mixins import CrfModelMixin, CrfInlineModelMixin, VisitModelMixin
@@ -100,7 +99,8 @@ class DisenrollmentThree(DisenrollmentModelMixin, RequiresConsentMixin, BaseUuid
         app_label = 'edc_example'
 
 
-class SubjectVisit(VisitModelMixin, OffstudyMixin, CreatesMetadataModelMixin, RequiresConsentMixin, BaseUuidModel):
+class SubjectVisit(
+        VisitModelMixin, OffstudyMixin, CreatesMetadataModelMixin, RequiresConsentMixin, BaseUuidModel):
 
     appointment = models.OneToOneField(Appointment, on_delete=PROTECT)
 
@@ -242,18 +242,6 @@ class RequisitionTwo(CrfModelMixin, RequisitionModelMixin, RequiresConsentMixin,
     class Meta:
         app_label = 'edc_example'
         consent_model = 'edc_example.subjectconsent'
-
-
-class CrfMetadata(CrfMetadataModelMixin, BaseUuidModel):
-
-    class Meta(CrfMetadataModelMixin.Meta):
-        app_label = 'edc_example'
-
-
-class RequisitionMetadata(RequisitionMetadataModelMixin, BaseUuidModel):
-
-    class Meta(RequisitionMetadataModelMixin.Meta):
-        app_label = 'edc_example'
 
 
 class Crypt(CryptModelMixin, BaseUuidModel):

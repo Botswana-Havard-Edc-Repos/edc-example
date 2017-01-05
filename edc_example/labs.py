@@ -2,7 +2,7 @@ from edc_lab.aliquot_type import AliquotType
 from edc_lab.processing_profile import ProcessingProfile
 from edc_lab.lab_profile import LabProfile
 from edc_lab.requisition_panel import RequisitionPanel
-from edc_lab.site_lab_profiles import site_lab_profiles
+from edc_lab.site_labs import site_labs
 
 
 lab_profile = LabProfile('clinic_lab')
@@ -34,4 +34,4 @@ lab_profile.add_panel(viral_load_panel)
 rdb_panel = RequisitionPanel('Research Blood Draw', wb)  # link this to the visit_schedule
 lab_profile.add_panel(rdb_panel)
 
-site_lab_profiles.register('edc_example.subjectrequisition', lab_profile)
+site_labs.register('edc_example.subjectrequisition', lab_profile)

@@ -3,7 +3,7 @@ from edc_visit_schedule.visit_schedule import VisitSchedule
 from edc_visit_schedule.visit import Crf, Requisition
 from edc_visit_schedule.schedule import Schedule
 
-from .lab_profiles import viral_load_panel, rdb_panel
+from .labs import viral_load_panel, rdb_panel
 
 crfs = (
     Crf(show_order=10, model='edc_example.crfone'),

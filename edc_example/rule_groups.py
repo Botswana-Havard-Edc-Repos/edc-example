@@ -7,7 +7,7 @@ from edc_rule_groups.predicate import P
 from edc_rule_groups.requisition_rule import RequisitionRule
 from edc_rule_groups.rule_group import RuleGroup
 
-from .lab_profiles import viral_load_panel, rdb_panel
+from .labs import viral_load_panel, rdb_panel
 
 
 @register()

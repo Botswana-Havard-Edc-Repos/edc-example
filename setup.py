@@ -22,9 +22,6 @@ setup(
     long_description=README,
     zip_safe=False,
     keywords='django edc example models and schedule',
-    install_requires=[
-        'factory-boy',
-    ],
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',

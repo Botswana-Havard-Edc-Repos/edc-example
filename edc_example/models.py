@@ -1,3 +1,5 @@
+from uuid import uuid4
+
 from django.db import models
 from django.db.models.deletion import PROTECT
 
@@ -23,6 +25,7 @@ from edc_visit_tracking.model_mixins import CrfModelMixin, CrfInlineModelMixin, 
 from edc_visit_schedule.model_mixins import DisenrollmentModelMixin, EnrollmentModelMixin
 from edc_visit_tracking.managers import VisitModelManager
 from edc_protocol.model_mixins import SubjectTypeCapMixin
+from edc_base_test.utils import get_utcnow
 
 
 class SubjectConsent(ConsentModelMixin, NonUniqueSubjectIdentifierModelMixin, UpdatesOrCreatesRegistrationModelMixin,
@@ -286,6 +289,10 @@ class TestModel(BaseUuidModel):
 
     f1 = models.CharField(max_length=10, unique=True)
 
+    f2 = models.CharField(max_length=10, null=True)
+
+    f3 = models.CharField(max_length=10, default=uuid4())
+
     objects = TestModelManager()
 
     history = HistoricalRecords()
@@ -371,3 +378,62 @@ class ComplexTestModel(BaseUuidModel):
     class Meta:
         app_label = 'edc_example'
         unique_together = ('f1', 'fk')
+
+
+class Example(BaseUuidModel):
+
+    example_identifier = models.CharField(
+        max_length=10, unique=True)
+
+    f1 = models.CharField(max_length=10)
+
+    f2 = models.CharField(max_length=10, null=True)
+
+    f3 = models.CharField(max_length=10, default=uuid4())
+
+    report_datetime = models.DateTimeField(
+        default=get_utcnow)
+
+    class Meta:
+        app_label = 'edc_example'
+
+
+class ParentExample(BaseUuidModel):
+
+    f1 = models.CharField(max_length=10)
+
+    f2 = models.CharField(max_length=10, null=True)
+
+    f3 = models.CharField(max_length=10, default=uuid4())
+
+    example = models.ForeignKey(Example)
+
+    report_datetime = models.DateTimeField(
+        default=get_utcnow)
+
+    class Meta:
+        app_label = 'edc_example'
+
+
+class ExampleLog(BaseUuidModel):
+
+    example = models.OneToOneField(Example)
+
+    f1 = models.CharField(max_length=10, unique=True)
+
+    report_datetime = models.DateTimeField(
+        default=get_utcnow)
+
+    class Meta:
+        app_label = 'edc_example'
+
+
+class ExampleLogEntry(BaseUuidModel):
+
+    example_log = models.ForeignKey(ExampleLog)
+
+    report_datetime = models.DateTimeField(
+        default=get_utcnow)
+
+    class Meta:
+        app_label = 'edc_example'

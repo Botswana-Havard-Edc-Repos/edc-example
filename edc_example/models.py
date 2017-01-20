@@ -17,8 +17,8 @@ from edc_consent.model_mixins import RequiresConsentMixin
 from edc_constants.constants import NO
 from edc_identifier.model_mixins import NonUniqueSubjectIdentifierModelMixin
 from edc_lab.model_mixins import RequisitionModelMixin
-from edc_metadata.model_mixins import (
-    CreatesMetadataModelMixin, UpdatesCrfMetadataModelMixin, UpdatesRequisitionMetadataModelMixin)
+from edc_metadata.model_mixins.creates import CreatesMetadataModelMixin
+from edc_metadata.model_mixins.updates import UpdatesCrfMetadataModelMixin, UpdatesRequisitionMetadataModelMixin
 from edc_offstudy.model_mixins import OffstudyModelMixin, OffstudyMixin
 from edc_registration.model_mixins import UpdatesOrCreatesRegistrationModelMixin
 from edc_visit_tracking.model_mixins import CrfModelMixin, CrfInlineModelMixin, VisitModelMixin
@@ -32,7 +32,7 @@ class SubjectConsent(ConsentModelMixin, NonUniqueSubjectIdentifierModelMixin, Up
                      IdentityFieldsMixin, ReviewFieldsMixin, PersonalFieldsMixin, CitizenFieldsMixin,
                      VulnerabilityFieldsMixin, BaseUuidModel):
 
-    class Meta:
+    class Meta(ConsentModelMixin.Meta):
         app_label = 'edc_example'
         unique_together = ['subject_identifier', 'version']
 
@@ -51,7 +51,7 @@ class SubjectOffstudy(OffstudyModelMixin, BaseUuidModel):
 
 class Enrollment(EnrollmentModelMixin, CreateAppointmentsMixin, RequiresConsentMixin, BaseUuidModel):
 
-    class Meta(EnrollmentModelMixin.Meta):
+    class Meta(EnrollmentModelMixin.Meta, RequiresConsentMixin.Meta):
         visit_schedule_name = 'subject_visit_schedule.schedule1'
         consent_model = 'edc_example.subjectconsent'
         app_label = 'edc_example'
@@ -62,7 +62,7 @@ class EnrollmentTwo(EnrollmentModelMixin, SubjectTypeCapMixin, CreateAppointment
 
     subject_type = models.CharField(max_length=15, editable=False)
 
-    class Meta(EnrollmentModelMixin.Meta):
+    class Meta(EnrollmentModelMixin.Meta, RequiresConsentMixin.Meta):
         visit_schedule_name = 'subject_visit_schedule.schedule2'
         consent_model = 'edc_example.subjectconsent'
         app_label = 'edc_example'
@@ -71,7 +71,7 @@ class EnrollmentTwo(EnrollmentModelMixin, SubjectTypeCapMixin, CreateAppointment
 class EnrollmentThree(EnrollmentModelMixin, SubjectTypeCapMixin, CreateAppointmentsMixin,
                       RequiresConsentMixin, BaseUuidModel):
     """Includes schedule_name on Meta"""
-    class Meta(EnrollmentModelMixin.Meta):
+    class Meta(EnrollmentModelMixin.Meta, RequiresConsentMixin.Meta):
         visit_schedule_name = 'subject_visit_schedule.schedule3'
         consent_model = 'edc_example.subjectconsent'
         app_label = 'edc_example'
@@ -80,7 +80,7 @@ class EnrollmentThree(EnrollmentModelMixin, SubjectTypeCapMixin, CreateAppointme
 
 class Disenrollment(DisenrollmentModelMixin, RequiresConsentMixin, BaseUuidModel):
 
-    class Meta(DisenrollmentModelMixin.Meta):
+    class Meta(DisenrollmentModelMixin.Meta, RequiresConsentMixin.Meta):
         visit_schedule_name = 'subject_visit_schedule.schedule1'
         consent_model = 'edc_example.subjectconsent'
         app_label = 'edc_example'
@@ -88,7 +88,7 @@ class Disenrollment(DisenrollmentModelMixin, RequiresConsentMixin, BaseUuidModel
 
 class DisenrollmentTwo(DisenrollmentModelMixin, RequiresConsentMixin, BaseUuidModel):
 
-    class Meta(DisenrollmentModelMixin.Meta):
+    class Meta(DisenrollmentModelMixin.Meta, RequiresConsentMixin.Meta):
         visit_schedule_name = 'subject_visit_schedule.schedule2'
         consent_model = 'edc_example.subjectconsent'
         app_label = 'edc_example'
@@ -96,7 +96,7 @@ class DisenrollmentTwo(DisenrollmentModelMixin, RequiresConsentMixin, BaseUuidMo
 
 class DisenrollmentThree(DisenrollmentModelMixin, RequiresConsentMixin, BaseUuidModel):
 
-    class Meta(DisenrollmentModelMixin.Meta):
+    class Meta(DisenrollmentModelMixin.Meta, RequiresConsentMixin.Meta):
         visit_schedule_name = 'subject_visit_schedule.schedule3'
         consent_model = 'edc_example.subjectconsent'
         app_label = 'edc_example'
@@ -109,7 +109,7 @@ class SubjectVisit(
 
     objects = VisitModelManager()
 
-    class Meta(VisitModelMixin.Meta):
+    class Meta(VisitModelMixin.Meta, RequiresConsentMixin.Meta):
         consent_model = 'edc_example.subjectconsent'
         app_label = 'edc_example'
 
@@ -124,7 +124,7 @@ class CrfOne(CrfModelMixin, OffstudyMixin, RequiresConsentMixin, UpdatesCrfMetad
 
     rdb = models.CharField(max_length=10, default=NO)
 
-    class Meta:
+    class Meta(RequiresConsentMixin.Meta):
         consent_model = 'edc_example.subjectconsent'
         app_label = 'edc_example'
 
@@ -145,7 +145,7 @@ class BadCrfOneInline(CrfInlineModelMixin, RequiresConsentMixin, BaseUuidModel):
 
     f1 = models.CharField(max_length=10, default='erik')
 
-    class Meta:
+    class Meta(RequiresConsentMixin.Meta):
         consent_model = 'edc_example.subjectconsent'
         app_label = 'edc_example'
 
@@ -158,7 +158,7 @@ class CrfOneInline(CrfInlineModelMixin, RequiresConsentMixin, BaseUuidModel):
 
     f1 = models.CharField(max_length=10, default='erik')
 
-    class Meta:
+    class Meta(RequiresConsentMixin.Meta):
         consent_model = 'edc_example.subjectconsent'
         crf_inline_parent = 'crf_one'
         app_label = 'edc_example'
@@ -170,7 +170,7 @@ class CrfTwo(CrfModelMixin, OffstudyMixin, RequiresConsentMixin, UpdatesCrfMetad
 
     f1 = models.CharField(max_length=10, default='erik')
 
-    class Meta:
+    class Meta(RequiresConsentMixin.Meta):
         app_label = 'edc_example'
         consent_model = 'edc_example.subjectconsent'
 
@@ -181,7 +181,7 @@ class CrfThree(CrfModelMixin, OffstudyMixin, RequiresConsentMixin, UpdatesCrfMet
 
     f1 = models.CharField(max_length=10, default='erik')
 
-    class Meta:
+    class Meta(RequiresConsentMixin.Meta):
         app_label = 'edc_example'
         consent_model = 'edc_example.subjectconsent'
 
@@ -192,7 +192,7 @@ class CrfFour(CrfModelMixin, OffstudyMixin, RequiresConsentMixin, UpdatesCrfMeta
 
     f1 = models.CharField(max_length=10, default='erik')
 
-    class Meta:
+    class Meta(RequiresConsentMixin.Meta):
         app_label = 'edc_example'
         consent_model = 'edc_example.subjectconsent'
 
@@ -203,7 +203,7 @@ class CrfFive(CrfModelMixin, OffstudyMixin, RequiresConsentMixin, UpdatesCrfMeta
 
     f1 = models.CharField(max_length=10, default='erik')
 
-    class Meta:
+    class Meta(RequiresConsentMixin.Meta):
         app_label = 'edc_example'
         consent_model = 'edc_example.subjectconsent'
 
@@ -214,7 +214,7 @@ class CrfSix(CrfModelMixin, OffstudyMixin, RequiresConsentMixin, UpdatesCrfMetad
 
     f1 = models.CharField(max_length=10, default='erik')
 
-    class Meta:
+    class Meta(RequiresConsentMixin.Meta):
         app_label = 'edc_example'
         consent_model = 'edc_example.subjectconsent'
 
@@ -232,7 +232,7 @@ class SubjectRequisition(CrfModelMixin, OffstudyMixin, RequisitionModelMixin, Re
 
     subject_visit = models.ForeignKey(SubjectVisit)
 
-    class Meta:
+    class Meta(RequiresConsentMixin.Meta):
         app_label = 'edc_example'
         consent_model = 'edc_example.subjectconsent'
 
@@ -242,7 +242,7 @@ class RequisitionTwo(CrfModelMixin, RequisitionModelMixin, RequiresConsentMixin,
 
     subject_visit = models.ForeignKey(SubjectVisit)
 
-    class Meta:
+    class Meta(RequiresConsentMixin.Meta):
         app_label = 'edc_example'
         consent_model = 'edc_example.subjectconsent'
 

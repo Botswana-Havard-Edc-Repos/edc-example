@@ -8,7 +8,8 @@ from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
 
 from edc_appointment.models import Appointment
 from edc_appointment.model_mixins import CreateAppointmentsMixin
-from edc_base.model.models import BaseUuidModel, ListModelMixin, HistoricalRecords
+from edc_base.model_mixins import BaseUuidModel, ListModelMixin
+from edc_base.model_managers import HistoricalRecords
 from edc_consent.field_mixins import (
     ReviewFieldsMixin, PersonalFieldsMixin, CitizenFieldsMixin, VulnerabilityFieldsMixin)
 from edc_consent.field_mixins.bw.identity_fields_mixin import IdentityFieldsMixin

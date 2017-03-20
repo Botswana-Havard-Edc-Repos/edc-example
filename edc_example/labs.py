@@ -1,7 +1,7 @@
-from edc_lab.aliquot_type import AliquotType
-from edc_lab.processing_profile import ProcessingProfile
-from edc_lab.lab_profile import LabProfile
-from edc_lab.requisition_panel import RequisitionPanel
+from edc_lab.lab.aliquot_type import AliquotType
+from edc_lab.lab.processing_profile import ProcessingProfile
+from edc_lab.lab.lab_profile import LabProfile
+from edc_lab.lab.requisition_panel import RequisitionPanel
 from edc_lab.site_labs import site_labs
 
 
@@ -27,11 +27,13 @@ pbmc_processing = ProcessingProfile('pbmc', wb)
 pbmc_processing.add_process(pl, 4)
 lab_profile.add_processing_profile(pbmc_processing)
 
-viral_load_panel = RequisitionPanel('Viral Load', wb)  # link this to the visit_schedule
+# link this to the visit_schedule
+viral_load_panel = RequisitionPanel('Viral Load', wb)
 viral_load_panel.processing_profile = viral_load_processing
 lab_profile.add_panel(viral_load_panel)
 
-rdb_panel = RequisitionPanel('Research Blood Draw', wb)  # link this to the visit_schedule
+# link this to the visit_schedule
+rdb_panel = RequisitionPanel('Research Blood Draw', wb)
 lab_profile.add_panel(rdb_panel)
 
 site_labs.register('edc_example.subjectrequisition', lab_profile)

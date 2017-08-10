@@ -3,14 +3,14 @@ from uuid import uuid4
 from django.db import models
 from django.db.models.deletion import PROTECT
 
-from django_crypto_fields.crypt_model_mixin import CryptModelMixin
+from django_crypto_fields.model_mixins import CryptModelMixin
 from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
 
 from edc_appointment.models import Appointment
 from edc_appointment.model_mixins import CreateAppointmentsMixin
 from edc_base.model_mixins import BaseUuidModel, ListModelMixin
 from edc_base.model_managers import HistoricalRecords
-from edc_base_test.utils import get_utcnow
+from edc_base.utils import get_utcnow
 from edc_consent.field_mixins import (
     ReviewFieldsMixin, PersonalFieldsMixin, CitizenFieldsMixin, VulnerabilityFieldsMixin)
 from edc_consent.field_mixins.bw.identity_fields_mixin import IdentityFieldsMixin

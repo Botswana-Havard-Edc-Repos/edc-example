@@ -3,7 +3,7 @@ from uuid import uuid4
 from django.db import models
 from django.db.models.deletion import PROTECT
 
-from django_crypto_fields.model_mixins import CryptModelMixin
+# from django_crypto_fields.model_mixins import CryptModelMixin
 from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
 
 from edc_appointment.models import Appointment
@@ -18,9 +18,11 @@ from edc_consent.model_mixins import ConsentModelMixin
 from edc_consent.model_mixins import RequiresConsentMixin
 from edc_constants.constants import NO
 from edc_identifier.model_mixins import NonUniqueSubjectIdentifierModelMixin
-from edc_lab.model_mixins.requisition import RequisitionModelMixin, RequisitionIdentifierMixin, RequisitionStatusMixin
+from edc_lab.model_mixins.requisition import (RequisitionModelMixin,
+                                              RequisitionIdentifierMixin, RequisitionStatusMixin)
 from edc_metadata.model_mixins.creates import CreatesMetadataModelMixin
-from edc_metadata.model_mixins.updates import UpdatesCrfMetadataModelMixin, UpdatesRequisitionMetadataModelMixin
+from edc_metadata.model_mixins.updates import (
+    UpdatesCrfMetadataModelMixin, UpdatesRequisitionMetadataModelMixin)
 from edc_offstudy.model_mixins import OffstudyModelMixin, OffstudyMixin
 from edc_registration.model_mixins import UpdatesOrCreatesRegistrationModelMixin
 from edc_visit_tracking.model_mixins import CrfModelMixin, CrfInlineModelMixin, VisitModelMixin
@@ -259,11 +261,11 @@ class RequisitionTwo(CrfModelMixin, RequisitionModelMixin, RequiresConsentMixin,
         consent_model = 'edc_example.subjectconsent'
 
 
-class Crypt(CryptModelMixin, BaseUuidModel):
+"""class Crypt(CryptModelMixin, BaseUuidModel):
 
     class Meta:
         app_label = 'edc_example'
-        unique_together = (('hash', 'algorithm', 'mode'),)
+        unique_together = (('hash', 'algorithm', 'mode'),)"""
 
 
 class BadTestModel(BaseUuidModel):

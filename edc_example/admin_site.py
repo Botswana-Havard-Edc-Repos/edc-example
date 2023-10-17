@@ -10,4 +10,6 @@ class EdcExampleAdminSite(AdminSite):
     site_title = app_config.project_name
     index_title = app_config.project_name
     site_url = '/'
+
+
 edc_example_admin = EdcExampleAdminSite(name='edc_example_admin')

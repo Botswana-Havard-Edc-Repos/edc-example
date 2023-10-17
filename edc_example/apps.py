@@ -13,9 +13,12 @@ class AppConfig(DjangoAppConfig):
 
 class EdcProtocolAppConfig(EdcProtocolAppConfigParent):
     subject_types = [
-        SubjectType('subject', 'Research Subjects', Cap(model_name='edc_example.enrollment', max_subjects=9999)),
-        SubjectType('subject', 'Research Subjects', Cap(model_name='edc_example.enrollmenttwo', max_subjects=9999)),
-        SubjectType('subject', 'Research Subjects', Cap(model_name='edc_example.enrollmentthree', max_subjects=5))
+        SubjectType('subject', 'Research Subjects',
+                    Cap(model_name='edc_example.enrollment', max_subjects=9999)),
+        SubjectType('subject', 'Research Subjects',
+                    Cap(model_name='edc_example.enrollmenttwo', max_subjects=9999)),
+        SubjectType('subject', 'Research Subjects',
+                    Cap(model_name='edc_example.enrollmentthree', max_subjects=5))
     ]
 
 

@@ -14,5 +14,4 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^edc-visit-schedule/', include('edc_visit_schedule.urls')),
     url(r'^edc/', include('edc_base.urls', namespace='edc-base')),
-#     url(r'^', HomeView.as_view(), name='home_url'),
 ]

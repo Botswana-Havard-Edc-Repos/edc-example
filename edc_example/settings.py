@@ -23,7 +23,7 @@ SECRET_KEY = 'cu4gjj0^_gjtej&7ia^5#vbw#&76zdse1cxs3(ego-5wf7$@$x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+APP_NAME = 'edc_example'
 ALLOWED_HOSTS = []
 
 # Application definition
@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'crispy_forms',
     'django_crypto_fields.apps.AppConfig',
     'django_revision.apps.AppConfig',

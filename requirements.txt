@@ -1,0 +1,35 @@
+Django==4.2.5
+django-audit-fields==0.3.11
+django-crispy-forms==2.0
+django-crypto-fields @ git+https://github.com/erikvw/django-crypto-fields@b22a53254d88ee5076c663d57c6c6336ade02f79
+django-debug-toolbar==4.2.0
+django-extensions==3.2.3
+django-ipware==5.0.0
+django-js-reverse==0.10.2
+django-logentry-admin==1.1.0
+django-revision @ git+https://github.com/erikvw/django-revision@582548345f976ea04c4dc5bea1bd436f368cff11
+django-simple-history==3.4.0
+docutils==0.20.1
+edc-appointment @ git+https://github.com/botswana-harvard/edc-appointment.git@5c8a64f53b54db7a057a296c769d4e69f3400a3b
+edc-base @ git+https://github.com/botswana-harvard/edc-base.git@08a64f9aa1a17809f8c3bcc6e1ccdb247cdd9880
+edc-base-test @ git+https://github.com/botswana-harvard/edc-base-test.git@4c6adabed4915968597ab26a359c0f9f300e0077
+edc-calendar @ git+https://github.com/botswana-harvard/edc-calendar.git@ff5c634735cb3e5a5bdd59abbd0942dfddc5697f
+edc-consent @ git+https://github.com/botswana-harvard/edc-consent.git@90b71fd80bc9191268d32215b0d20230eb845ddd
+edc-constants @ git+https://github.com/botswana-harvard/edc-constants.git@70b03cc3c135f242de543123b3c7c9dfce284e67
+edc-device @ git+https://github.com/botswana-harvard/edc-device.git@867751966a4449ffd17719aad11bba6be2a52800
+edc-facility @ git+https://github.com/botswana-harvard/edc-facility.git@3cd82c74b28ec22d16c4d627eff1aaf311af4287
+edc-identifier @ git+https://github.com/botswana-harvard/edc-identifier.git@c849cdb598d87082ab2008d7855bd1710e7023de
+edc-lab @ git+https://github.com/botswana-harvard/edc-lab.git@6cfecbc2032d00b4cb4cfd27a2550d3d0dd7524d
+edc-label @ git+https://github.com/botswana-harvard/edc-label.git@8fe927071ac87507f5d85603cef6c4bbd8a508f9
+edc-metadata @ git+https://github.com/botswana-harvard/edc-metadata.git@cc0cf2e47d7ba5d074423a49c910682e33503318
+edc-model-fields==0.3.8
+edc-protocol @ git+https://github.com/botswana-harvard/edc-protocol.git@7fa8814342ee887bbc423d97a07a87c58df9962b
+edc-reference @ git+https://github.com/botswana-harvard/edc-reference.git@cf77d5877476342830366e91a3fe6cfd4758945e
+edc-registration @ git+https://github.com/botswana-harvard/edc-registration.git@3c44c67996e21d1c79c41b54befb44d6deba67ac
+edc-search @ git+https://github.com/botswana-harvard/edc-search.git@9d60b5b606b903245fad0004e432279df52da776
+edc-timepoint @ git+https://github.com/botswana-harvard/edc-timepoint.git@2231996b42606a422ef4763c3ab388cddf38abbe
+edc-utils==0.3.23
+edc-visit-schedule @ git+https://github.com/botswana-harvard/edc-visit-schedule.git@71588bc1e9f1e5218ab524940b11c4ec406fee9f
+edc-visit-tracking @ git+https://github.com/botswana-harvard/edc-visit-tracking.git@61f7ccd1ce3f4b078a389b844029ef1263469ec2
+flake8==6.1.0
+
